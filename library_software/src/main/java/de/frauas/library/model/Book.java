@@ -31,7 +31,7 @@ public class Book {
 	private Date publicationDate;
 	
 	@NotNull
-	private String ISBN13;
+	private String isbn13;
 	
 	@Column(columnDefinition = "boolean default false")
 	private boolean lent = false;
@@ -40,13 +40,13 @@ public class Book {
 		
 	}
 	
-	public Book(String title, String authors, String publisher, Date publicationDate, String iSBN13) {
+	public Book(String title, String authors, String publisher, Date publicationDate, String isbn13) {
 		super();
 		this.title = title;
 		this.authors = authors;
 		this.publisher = publisher;
 		this.publicationDate = publicationDate;
-		this.ISBN13 = iSBN13;
+		this.isbn13 = isbn13;
 	}
 
 	public String getTitle() {
@@ -82,11 +82,11 @@ public class Book {
 	}
 
 	public String getISBN13() {
-		return ISBN13;
+		return isbn13;
 	}
 
-	public void setISBN13(String iSBN13) {
-		ISBN13 = iSBN13;
+	public void setISBN13(String isbn13) {
+		this.isbn13 = isbn13;
 	}
 
 	public Boolean getLent() {
