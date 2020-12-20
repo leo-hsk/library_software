@@ -1,7 +1,11 @@
 package de.frauas.library.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+/**
+ * This is a helper class to manually encode a password.
+ * @author Leonard
+ *
+ */
 public class PassGen {
 	public static void main(String[] args ) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
