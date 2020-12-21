@@ -49,7 +49,7 @@ public class BookDAO implements DAO<Book>{
 		
 		book.setTitle(Objects.requireNonNull(params[0], "Title cannot be null!"));
 		book.setAuthors(Objects.requireNonNull(params[1], "Authors cannot be null!"));
-		book.setISBN13(Objects.requireNonNull(params[2], "ISBN cannot be null!"));
+		book.setIsbn13(Objects.requireNonNull(params[2], "ISBN cannot be null!"));
 		book.setPublicationDate(Date.valueOf(Objects.requireNonNull(params[3].toString(), "Publication date cannot be null!")));
 		book.setPublisher(Objects.requireNonNull(params[4], "Publisher cannot be null!"));
 		
@@ -64,8 +64,10 @@ public class BookDAO implements DAO<Book>{
 
 
 	@Override
-	public void edit(Book book, String param) {
-		book.setLent(Boolean.valueOf(param));
+	public void edit(Book book, String[] param) {
+		book.setLent(Boolean.valueOf(param[0]));
+		book.setLentBy(Integer.valueOf(param[1]));
+		book.setLendingDate(Date.valueOf(param[2]));
 		bookRepository.save(book);
 	}
 
