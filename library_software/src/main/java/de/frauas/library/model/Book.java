@@ -36,6 +36,12 @@ public class Book {
 	@Column(columnDefinition = "boolean default false")
 	private boolean lent = false;
 	
+	@Column(columnDefinition = "integer default -1")
+	private int lentBy;
+
+	@Column(columnDefinition = "date default null")
+	private Date lendingDate;
+	
 	public Book() {
 		
 	}
@@ -81,14 +87,6 @@ public class Book {
 		this.publicationDate = publicationDate;
 	}
 
-	public String getISBN13() {
-		return isbn13;
-	}
-
-	public void setISBN13(String isbn13) {
-		this.isbn13 = isbn13;
-	}
-
 	public Boolean getLent() {
 		return lent;
 	}
@@ -103,6 +101,30 @@ public class Book {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String getIsbn13() {
+		return isbn13;
+	}
+
+	public void setIsbn13(String isbn13) {
+		this.isbn13 = isbn13;
+	}
+
+	public int getLentBy() {
+		return lentBy;
+	}
+
+	public void setLentBy(int lentBy) {
+		this.lentBy = lentBy;
+	}
+
+	public Date getLendingDate() {
+		return lendingDate;
+	}
+
+	public void setLendingDate(Date lendingDate) {
+		this.lendingDate = lendingDate;
 	}
 	
 	
