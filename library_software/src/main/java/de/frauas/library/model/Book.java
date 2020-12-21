@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -92,7 +91,7 @@ public class Book {
 		this.publicationDate = publicationDate;
 	}
 
-	public Boolean getLent() {
+	public Boolean isLent() {
 		return lent;
 	}
 

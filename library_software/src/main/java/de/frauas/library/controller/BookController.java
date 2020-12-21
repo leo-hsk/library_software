@@ -118,13 +118,18 @@ public class BookController {
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 		}
 		else {
-			
 			String[] param = new String[3];
-			Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 			
-			param[0] = String.valueOf(book.getLent());
-			param[1] = String.valueOf(book.getUser().getId());
-			param[2] = sqlDate.toString();
+			if(book.isLent()) {
+				Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+				
+				param[0] = String.valueOf(book.isLent());
+				param[1] = String.valueOf(book.getUser().getId());
+				param[2] = sqlDate.toString();
+				
+			} else {
+				param = null;
+			}
 			
 			bookDAO.edit(bookDAO.get(id).get(), param);
 			UriComponents path = builder.path("books/").path(String.valueOf(id)).build();

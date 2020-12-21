@@ -69,11 +69,16 @@ public class BookDAO implements DAO<Book>{
 	@Override
 	public void edit(Book book, String[] param) {
 		
-
+		if(param == null) {
+			book.setLent(false);
+			book.setLendingDate(null);
+			book.setUser(null);
+		}
+		else {
 		book.setLent(Boolean.valueOf(param[0]));
 		book.setUser(userRepository.getOne(Integer.valueOf(param[1])));
-		//book.setLentByUser(Integer.valueOf(param[1]));
 		book.setLendingDate(Date.valueOf(param[2]));
+		}
 		
 		bookRepository.save(book);
 	}
