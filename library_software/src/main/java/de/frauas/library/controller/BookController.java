@@ -1,5 +1,7 @@
 package de.frauas.library.controller;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,7 +94,7 @@ public class BookController {
 		String[] params = new String[5];
 		params[0] = book.getTitle();
 		params[1] = book.getAuthors();
-		params[2] = book.getISBN13();
+		params[2] = book.getIsbn13();
 		params[3] = book.getPublicationDate().toString();
 		params[4] = book.getPublisher();
 
@@ -117,7 +119,14 @@ public class BookController {
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 		}
 		else {
-			bookDAO.edit(bookDAO.get(id).get(), String.valueOf(book.getLent()));
+			String[] param = new String[3];
+			Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+			
+			param[0] = String.valueOf(book.getLent());
+			param[1] = String.valueOf(book.getLentBy());
+			param[2] = sqlDate.toString();
+			
+			bookDAO.edit(bookDAO.get(id).get(), param);
 			UriComponents path = builder.path("students/").path(String.valueOf(id)).build();
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Location", path.toUriString());
