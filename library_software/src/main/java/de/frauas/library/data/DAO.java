@@ -15,6 +15,6 @@ public interface DAO <T>{
 	
 	void delete(T t);
 	
-	void edit(T t, String param);
+	void edit(T t, String[] params);
 
 }
