@@ -110,24 +110,24 @@ public class BookController {
 	}
 
 	
-	@PatchMapping(value = "/books/{id}")
+	@PatchMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Object> editStudent(@PathVariable("id") int id,
 												@RequestBody Book book, UriComponentsBuilder builder) {
-
 		if(bookDAO.get(id).isEmpty()) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 		}
 		else {
+			
 			String[] param = new String[3];
 			Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 			
 			param[0] = String.valueOf(book.getLent());
-			param[1] = String.valueOf(book.getLentBy());
+			param[1] = String.valueOf(book.getUser().getId());
 			param[2] = sqlDate.toString();
 			
 			bookDAO.edit(bookDAO.get(id).get(), param);
-			UriComponents path = builder.path("students/").path(String.valueOf(id)).build();
+			UriComponents path = builder.path("books/").path(String.valueOf(id)).build();
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Location", path.toUriString());
 			return new ResponseEntity<Object>(headers, HttpStatus.OK);

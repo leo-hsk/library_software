@@ -7,7 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -36,11 +39,13 @@ public class Book {
 	@Column(columnDefinition = "boolean default false")
 	private boolean lent = false;
 	
-	@Column(columnDefinition = "integer default -1")
-	private int lentBy;
+	@ManyToOne
+	@JoinColumn(name = "lent_by_user")
+	private User user;
 
 	@Column(columnDefinition = "date default null")
 	private Date lendingDate;
+	
 	
 	public Book() {
 		
@@ -111,13 +116,6 @@ public class Book {
 		this.isbn13 = isbn13;
 	}
 
-	public int getLentBy() {
-		return lentBy;
-	}
-
-	public void setLentBy(int lentBy) {
-		this.lentBy = lentBy;
-	}
 
 	public Date getLendingDate() {
 		return lendingDate;
@@ -127,6 +125,13 @@ public class Book {
 		this.lendingDate = lendingDate;
 	}
 	
+	public User getUser() {
+		return this.user;
+	}
 	
-
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
 }

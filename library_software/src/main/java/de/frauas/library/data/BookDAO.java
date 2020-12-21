@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import de.frauas.library.model.Book;
 import de.frauas.library.repository.BookRepository;
+import de.frauas.library.repository.UserRepository;
 
 @Repository
 public class BookDAO implements DAO<Book>{
@@ -18,6 +19,8 @@ public class BookDAO implements DAO<Book>{
 	@Autowired
 	BookRepository bookRepository;
 	
+	@Autowired
+	UserRepository userRepository;
 	
 	@Override
 	public List<Book> getAll() {
@@ -65,9 +68,13 @@ public class BookDAO implements DAO<Book>{
 
 	@Override
 	public void edit(Book book, String[] param) {
+		
+
 		book.setLent(Boolean.valueOf(param[0]));
-		book.setLentBy(Integer.valueOf(param[1]));
+		book.setUser(userRepository.getOne(Integer.valueOf(param[1])));
+		//book.setLentByUser(Integer.valueOf(param[1]));
 		book.setLendingDate(Date.valueOf(param[2]));
+		
 		bookRepository.save(book);
 	}
 
