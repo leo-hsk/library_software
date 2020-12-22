@@ -88,7 +88,7 @@ public class BookController {
 	
 	@PutMapping(value = "/books/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Object> updateStudent(@PathVariable("id") int id,
+	public ResponseEntity<Object> updateBooks(@PathVariable("id") int id,
 			@RequestBody Book book, UriComponentsBuilder builder) {
 
 		String[] params = new String[5];
