@@ -56,6 +56,10 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Book> books;
 	
+	public User() {
+		
+	}
+	
 	public User(@NotNull String username, @NotNull String password, @NotNull String firstName, @NotNull String lastName,
 			@NotNull String email, @NotNull Role role) {
 		super();
@@ -70,8 +74,6 @@ public class User {
 	public List<Book> getBooks() {
 		return books;
 	}
-	
-	
 
 	public void setBooks(List<Book> books) {
 		this.books = books;
