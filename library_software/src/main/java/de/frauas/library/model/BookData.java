@@ -35,6 +35,19 @@ public class BookData {
 
 	public BookData() {
 	}
+	
+	
+
+	public BookData( String title, String authors, String publisher, Date publicationDate, long isbn13) {
+		super();
+		this.title = title;
+		this.authors = authors;
+		this.publisher = publisher;
+		this.publicationDate = publicationDate;
+		this.isbn13 = isbn13;
+	}
+
+
 
 	public String getTitle() {
 		return title;
