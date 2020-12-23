@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import de.frauas.library.model.Book;
+import de.frauas.library.repository.BookDataRepository;
 import de.frauas.library.repository.BookRepository;
 import de.frauas.library.repository.UserRepository;
 
@@ -22,6 +23,9 @@ public class BookDAO implements DAO<Book>{
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	BookDataRepository bookDataRepository;
+	
 	@Override
 	public List<Book> getAll() {
 		List<Book> bookList = bookRepository.findAll();
@@ -30,7 +34,7 @@ public class BookDAO implements DAO<Book>{
 
 
 	@Override
-	public Optional<Book> get(int id) {
+	public Optional<Book> get(long id) {
 		try {
 			Optional<Book> book = bookRepository.findById(id);
 			return book;
@@ -52,7 +56,7 @@ public class BookDAO implements DAO<Book>{
 		
 		book.setTitle(Objects.requireNonNull(params[0], "Title cannot be null!"));
 		book.setAuthors(Objects.requireNonNull(params[1], "Authors cannot be null!"));
-		book.setIsbn13(Objects.requireNonNull(params[2], "ISBN cannot be null!"));
+		book.setBookData(bookDataRepository.findById(Long.parseLong(Objects.requireNonNull(params[2], "ISBN cannot be null!"))).get());
 		book.setPublicationDate(Date.valueOf(Objects.requireNonNull(params[3].toString(), "Publication date cannot be null!")));
 		book.setPublisher(Objects.requireNonNull(params[4], "Publisher cannot be null!"));
 		
@@ -76,7 +80,7 @@ public class BookDAO implements DAO<Book>{
 		}
 		else {
 		book.setLent(Boolean.valueOf(param[0]));
-		book.setUser(userRepository.getOne(Integer.valueOf(param[1])));
+		book.setUser(userRepository.getOne(Long.valueOf(param[1])));
 		book.setLendingDate(Date.valueOf(param[2]));
 		}
 		
