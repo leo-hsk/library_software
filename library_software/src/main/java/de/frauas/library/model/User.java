@@ -13,6 +13,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // Handle circular references
 @Entity
 @Table(name = "users")
 public class User {
@@ -47,6 +52,7 @@ public class User {
 	@JoinColumn(name = "role_id")
 	private Role role;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Book> books;
 	
