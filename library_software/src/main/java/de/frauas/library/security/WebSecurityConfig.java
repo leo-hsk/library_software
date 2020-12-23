@@ -41,24 +41,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.authorizeRequests()
-		.antMatchers("/").hasAnyAuthority("user", "admin")
-		.antMatchers(HttpMethod.GET, "/books").hasAnyAuthority("user", "admin")
-		.antMatchers(HttpMethod.GET, "/books/**").hasAnyAuthority("user", "admin")
-		.antMatchers(HttpMethod.DELETE, "/books/**").hasAnyAuthority("admin")
-		.antMatchers(HttpMethod.POST, "/books/**").hasAnyAuthority("admin")
-		.antMatchers(HttpMethod.PUT, "/books/**").hasAnyAuthority("admin")
-		.antMatchers(HttpMethod.PATCH, "/books/**").hasAnyAuthority("admin")
-		.anyRequest().authenticated()
-		.and()
-		.httpBasic()
-		.and()
-		.formLogin()
-		// .loginPage("/login").permitAll() for custom login page
-		.and()
-		.logout().permitAll()
-		.and()
-		.exceptionHandling().accessDeniedPage("/403");
+		http.httpBasic().disable(); // DELETE FOR SPRING SECURITY FUNCTIONALITY
+//		.authorizeRequests()
+//		.antMatchers("/").hasAnyAuthority("user", "admin")
+//		.antMatchers(HttpMethod.GET, "/books").hasAnyAuthority("user", "admin")
+//		.antMatchers(HttpMethod.GET, "/books/**").hasAnyAuthority("user", "admin")
+//		.antMatchers(HttpMethod.DELETE, "/books/**").hasAnyAuthority("admin")
+//		.antMatchers(HttpMethod.POST, "/books/**").hasAnyAuthority("admin")
+//		.antMatchers(HttpMethod.PUT, "/books/**").hasAnyAuthority("admin")
+//		.antMatchers(HttpMethod.PATCH, "/books/**").hasAnyAuthority("admin")
+//		.anyRequest().authenticated()
+//		.and()
+//		.httpBasic()
+//		.and()
+//		.formLogin()
+//		// .loginPage("/login").permitAll() for custom login page
+//		.and()
+//		.logout().permitAll()
+//		.and()
+//		.exceptionHandling().accessDeniedPage("/403");
 		
 		http.csrf().disable();
 		http.headers().frameOptions().disable();
