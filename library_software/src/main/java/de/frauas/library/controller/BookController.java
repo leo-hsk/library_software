@@ -93,11 +93,11 @@ public class BookController {
 			@RequestBody Book book, UriComponentsBuilder builder) {
 		
 		String[] params = new String[5];
-		params[0] = book.getTitle();
-		params[1] = book.getAuthors();
+//		params[0] = book.getTitle();
+//		params[1] = book.getAuthors();
 		params[2] = String.valueOf(book.getBookData().getIsbn13());
-		params[3] = book.getPublicationDate().toString();
-		params[4] = book.getPublisher();
+//		params[3] = book.getPublicationDate().toString();
+//		params[4] = book.getPublisher();
 
 		if (bookDAO.get(id).isEmpty()) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
