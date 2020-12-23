@@ -54,7 +54,7 @@ public class BookController {
 	
 	@GetMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Optional<Book>> getBook(@PathVariable("id") int id) {
+	public ResponseEntity<Optional<Book>> getBook(@PathVariable("id") long id) {
 
 		if (bookDAO.get(id).isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -66,7 +66,7 @@ public class BookController {
 	
 	@DeleteMapping(value = "/books/{id}")
 	@ResponseBody
-	public ResponseEntity<Object> deleteBook(@PathVariable("id") int id, UriComponentsBuilder builder) {	
+	public ResponseEntity<Object> deleteBook(@PathVariable("id") long id, UriComponentsBuilder builder) {	
 		if(bookDAO.get(id).isEmpty()) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 		}
@@ -78,7 +78,7 @@ public class BookController {
 	
 	@PostMapping(value = "/books", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Object> addBook(@RequestBody Book book, UriComponentsBuilder builder) { // RequestBody needs to be in a JSON format. See Postman "Add Book".
+	public ResponseEntity<Object> addBook(@RequestBody Book book, UriComponentsBuilder builder) {
 		bookDAO.save(book);
 		UriComponents path = builder.path("books/").path(String.valueOf(book.getId())).build();
 		HttpHeaders headers = new HttpHeaders();
@@ -86,15 +86,16 @@ public class BookController {
 		return new ResponseEntity<Object>(headers, HttpStatus.CREATED);
 	}
 	
+//	Not needed
 	@PutMapping(value = "/books/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Object> updateBooks(@PathVariable("id") int id,
+	public ResponseEntity<Object> updateBooks(@PathVariable("id") long id,
 			@RequestBody Book book, UriComponentsBuilder builder) {
-
+		
 		String[] params = new String[5];
 		params[0] = book.getTitle();
 		params[1] = book.getAuthors();
-		params[2] = book.getIsbn13();
+		params[2] = String.valueOf(book.getBookData().getIsbn13());
 		params[3] = book.getPublicationDate().toString();
 		params[4] = book.getPublisher();
 
@@ -109,10 +110,10 @@ public class BookController {
 		}
 	}
 
-	
-	@PatchMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//	Change to put mapping
+	@PatchMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Object> editStudent(@PathVariable("id") int id,
+	public ResponseEntity<Object> editBook(@PathVariable("id") long id,
 												@RequestBody Book book, UriComponentsBuilder builder) {
 		if(bookDAO.get(id).isEmpty()) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
