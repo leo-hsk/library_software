@@ -1,5 +1,7 @@
 package de.frauas.library.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,14 +15,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // Handle circular references
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // Handles circular references
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails{
 	
 	@Id
 	@Column(name = "user_id")
@@ -60,8 +66,7 @@ public class User {
 		
 	}
 	
-	public User(@NotNull String username, @NotNull String password, @NotNull String firstName, @NotNull String lastName,
-			@NotNull String email, @NotNull Role role) {
+	public User(String username, String password, String firstName, String lastName, String email, Role role) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -141,6 +146,32 @@ public class User {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<SimpleGrantedAuthority> authority = new ArrayList<>();
+		authority.add(new SimpleGrantedAuthority(this.role.getName()));
+		
+		return authority;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 	
 	
