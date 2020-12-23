@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "books")
@@ -18,23 +17,12 @@ public class Book {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private long id;
 	
-	@NotNull
-	private String title;
-	
-	@NotNull
-	private String authors;
-	
-	@NotNull
-	private String publisher;
-	
-	@NotNull
-	private Date publicationDate;
-	
-	@NotNull
-	private String isbn13;
-	
+	@ManyToOne
+	@JoinColumn(name = "isbn13")
+	private BookData bookData;
+
 	@Column(columnDefinition = "boolean default false")
 	private boolean lent = false;
 	
@@ -49,46 +37,37 @@ public class Book {
 	public Book() {
 		
 	}
-	
-	public Book(String title, String authors, String publisher, Date publicationDate, String isbn13) {
-		super();
-		this.title = title;
-		this.authors = authors;
-		this.publisher = publisher;
-		this.publicationDate = publicationDate;
-		this.isbn13 = isbn13;
-	}
 
 	public String getTitle() {
-		return title;
+		return bookData.getTitle();
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
+		this.bookData.setTitle(title);
 	}
 
 	public String getAuthors() {
-		return authors;
+		return bookData.getAuthors();
 	}
 
 	public void setAuthors(String authors) {
-		this.authors = authors;
+		this.bookData.setAuthors(authors);
 	}
 
 	public String getPublisher() {
-		return publisher;
+		return bookData.getPublisher();
 	}
 
 	public void setPublisher(String publisher) {
-		this.publisher = publisher;
+		this.bookData.setPublisher(publisher);
 	}
 
 	public Date getPublicationDate() {
-		return publicationDate;
+		return bookData.getPublicationDate();
 	}
 
 	public void setPublicationDate(Date publicationDate) {
-		this.publicationDate = publicationDate;
+		this.bookData.setPublicationDate(publicationDate);
 	}
 
 	public Boolean isLent() {
@@ -99,7 +78,7 @@ public class Book {
 		this.lent = lent;
 	}
 
-	public Integer getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -107,12 +86,12 @@ public class Book {
 		this.id = id;
 	}
 	
-	public String getIsbn13() {
-		return isbn13;
+	public BookData getBookData() {
+		return this.bookData;
 	}
 
-	public void setIsbn13(String isbn13) {
-		this.isbn13 = isbn13;
+	public void setBookData(BookData bookdata) {
+		this.bookData = bookdata;
 	}
 
 
