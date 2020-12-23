@@ -8,6 +8,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,8 @@ import de.frauas.library.data.UserDAO;
 import de.frauas.library.form.UserForm;
 import de.frauas.library.model.User;
 import de.frauas.library.repository.RoleRepository;
+import de.frauas.library.security.UserDetailsServiceImpl;
+import de.frauas.library.security.WebSecurityConfig;
 
 @Controller
 public class UserController {
@@ -41,6 +45,24 @@ public class UserController {
 		UserForm userForm = new UserForm();
 		model.addAttribute("userForm", userForm);
 		return "register";
+	}
+	
+	@GetMapping(value = {"/account"})
+	public String showAccountPage(Model model) {
+//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//		if (principal instanceof UserDetails) {
+//		String username = ((UserDetails)principal).getUsername();
+//		System.out.println(username);
+//		} else {
+//		String username = principal.toString();
+//		System.out.println(username);
+//		}
+		
+		
+		UserForm userForm = new UserForm();
+		model.addAttribute("userForm", userForm);
+		return "account";
 	}
 
 	@GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
