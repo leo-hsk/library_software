@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Add Book</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+	<h1>Add Book Information:</h1>
+	<form th:action="@{/addBook}" th:object="${bookForm}" method="POST">
+		Title: <input type="text" th:field="*{title}" />
+		<br/>
+		Author(s): <input type="text" th:field="*{authors}" />
+		<br/>
+		Publisher: <input type="text" th:field="*{publisher}" />
+		<br/>
+		Publication Date: <input type="text" th:field="*{publicationDate}" />
+		<br/>
+		ISBN 13: <input type="text" th:field="*{isbn13}" />
+		<br/>
+		<input type="submit" value="Create" />
+	</form>
+	<br />
+	<!-- Check if errorMessage is not null and not empty -->
+	<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>
+</body>
+</html>
