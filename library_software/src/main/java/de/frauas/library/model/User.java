@@ -56,9 +56,22 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Book> books;
 	
+	public User(@NotNull String username, @NotNull String password, @NotNull String firstName, @NotNull String lastName,
+			@NotNull String email, @NotNull Role role) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.role = role;
+	}
+
 	public List<Book> getBooks() {
 		return books;
 	}
+	
+	
 
 	public void setBooks(List<Book> books) {
 		this.books = books;
