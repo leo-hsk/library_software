@@ -8,26 +8,40 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import de.frauas.library.data.UserDAO;
+import de.frauas.library.form.UserForm;
 import de.frauas.library.model.User;
+import de.frauas.library.repository.RoleRepository;
 
-@RestController
+@Controller
 public class UserController {
 
 	@Autowired
 	UserDAO userDAO;
+	
+	@Autowired
+	RoleRepository roleRepository;
+	
+	@GetMapping(value = {"/register"})
+	public String showRegistrationPage(Model model) {
+		UserForm userForm = new UserForm();
+		model.addAttribute("userForm", userForm);
+		return "register";
+	}
 
 	@GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -61,14 +75,34 @@ public class UserController {
 		}
 	}
 
-	@PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Object> addUser(@RequestBody User user, UriComponentsBuilder builder) {
-		userDAO.save(user);
-		UriComponents path = builder.path("register/").path(String.valueOf(user.getId())).build();
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", path.toUriString());
-		return new ResponseEntity<Object>(headers, HttpStatus.CREATED);
+	@PostMapping(value = "/register")
+	public String addUser(Model model, @ModelAttribute("userForm") UserForm userForm) {
+		
+		String username = userForm.getUsername();
+		String password = userForm.getPassword();
+		String firstName = userForm.getFirstName();
+		String lastName = userForm.getLastName();
+		String email = userForm.getEmail();
+		
+		if(username.length() > 0
+				&& username != null
+				&& password.length() > 0
+				&& password != null
+				&& firstName.length() >0
+				&& firstName != null
+				&& lastName.length() >0
+				&& lastName != null
+				&& email.length() >0
+				&& email != null) {
+			
+			User user = new User(username, password, firstName, lastName, email, roleRepository.getOne((long)2));
+			userDAO.save(user);
+			model.addAttribute("successMessage", "Registration was successful.");
+			return "register";
+		}
+		
+		model.addAttribute("errorMessage", "Registration was not successful.");
+		return "register";
 	}
 
 //Not needed
