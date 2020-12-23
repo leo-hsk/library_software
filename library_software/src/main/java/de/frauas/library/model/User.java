@@ -23,6 +23,7 @@ public class User {
 	private long id;
 	
 	@NotNull
+	@Column(unique = true)
 	private String username;
 	
 	@NotNull
@@ -38,6 +39,7 @@ public class User {
 	private String lastName;
 	
 	@NotNull
+	@Column(unique = true)
 	private String email;
 	
 	@NotNull
