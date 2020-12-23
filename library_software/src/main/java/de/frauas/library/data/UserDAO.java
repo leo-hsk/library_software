@@ -5,9 +5,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import de.frauas.library.model.User;
+import de.frauas.library.repository.RoleRepository;
 import de.frauas.library.repository.UserRepository;
 
 @Repository
@@ -15,6 +17,9 @@ public class UserDAO implements DAO<User>{
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	RoleRepository roleRepository;
 
 	@Override
 	public Optional<User> get(long id) {
@@ -35,15 +40,22 @@ public class UserDAO implements DAO<User>{
 
 	@Override
 	public void save(User user) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		user.setPassword(encoder.encode(user.getPassword()));
+		
 		userRepository.save(user);
 	}
 
 	@Override
 	public void update(User user, String[] params) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
 		user.setUsername(Objects.requireNonNull(params[0], "Username cannot be null!"));
-		user.setFirstName(Objects.requireNonNull(params[1], "First name cannot be null!"));
-		user.setLastName(Objects.requireNonNull(params[2], "Last name cannot be null!"));
-		user.setEmail(Objects.requireNonNull(params[3], "Email cannot be null!"));
+		user.setPassword(Objects.requireNonNull(encoder.encode(params[1]), "Password cannot be null!"));
+		user.setRole(Objects.requireNonNull(roleRepository.findById(Long.valueOf(params[2])), "Role cannot be null!").get());
+		user.setFirstName(Objects.requireNonNull(params[3], "First name cannot be null!"));
+		user.setLastName(Objects.requireNonNull(params[4], "Last name cannot be null!"));
+		user.setEmail(Objects.requireNonNull(params[5], "Email cannot be null!"));
 		
 		userRepository.save(user);
 	}
