@@ -28,7 +28,7 @@ public class BookDataController {
 	
 	@GetMapping(value = "/bookData/{isbn13}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Optional<BookData>> getBook(@PathVariable("isbn13") long isbn13) {
+	public ResponseEntity<Optional<BookData>> getBookData(@PathVariable("isbn13") long isbn13) {
 
 		if (bookDataDAO.get(isbn13).isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
