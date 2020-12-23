@@ -19,18 +19,18 @@ public class Role {
 	@Id
 	@Column(name = "role_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 	private String name;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "role")
 	private List<User> users;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
