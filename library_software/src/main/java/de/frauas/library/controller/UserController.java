@@ -74,20 +74,22 @@ public class UserController {
 //Not needed
 	@PutMapping(value = "/users/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Object> updateBooks(@PathVariable("id") long id, @RequestBody User user,
+	public ResponseEntity<Object> updateUser(@PathVariable("id") long id, @RequestBody User user,
 			UriComponentsBuilder builder) {
 
-		String[] params = new String[4];
+		String[] params = new String[6];
 		params[0] = user.getUsername();
-		params[1] = user.getFirstName();
-		params[2] = user.getLastName();
-		params[3] = user.getEmail();
+		params[1] = user.getPassword();
+		params[2] = String.valueOf(user.getRole().getId());
+		params[3] = user.getFirstName();
+		params[4] = user.getLastName();
+		params[5] = user.getEmail();
 
 		if (userDAO.get(id).isEmpty()) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 		} else {
 			userDAO.update(userDAO.get(id).get(), params);
-			UriComponents path = builder.path("books/").path(String.valueOf(id)).build();
+			UriComponents path = builder.path("users/").path(String.valueOf(id)).build();
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Location", path.toUriString());
 			return new ResponseEntity<Object>(headers, HttpStatus.OK);
