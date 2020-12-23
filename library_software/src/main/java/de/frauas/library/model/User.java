@@ -34,8 +34,8 @@ public class User {
 	@NotNull
 	private String password;
 	
-	@Column(columnDefinition = "boolean default true")
-	private boolean enabled;
+	@Column(columnDefinition="tinyint(1) default 1")
+	private boolean enabled = true;
 	
 	@NotNull
 	private String firstName;
