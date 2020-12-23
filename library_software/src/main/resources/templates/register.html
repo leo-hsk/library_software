@@ -23,6 +23,7 @@
 	<br />
 	<!-- Check if errorMessage is not null and not empty -->
 	<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>
+	<!-- Tell user that he is registered now -->
 	<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic;">...</div>
 </body>
 </html>
