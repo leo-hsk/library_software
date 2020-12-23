@@ -38,37 +38,6 @@ public class Book {
 		
 	}
 
-	public String getTitle() {
-		return bookData.getTitle();
-	}
-
-	public void setTitle(String title) {
-		this.bookData.setTitle(title);
-	}
-
-	public String getAuthors() {
-		return bookData.getAuthors();
-	}
-
-	public void setAuthors(String authors) {
-		this.bookData.setAuthors(authors);
-	}
-
-	public String getPublisher() {
-		return bookData.getPublisher();
-	}
-
-	public void setPublisher(String publisher) {
-		this.bookData.setPublisher(publisher);
-	}
-
-	public Date getPublicationDate() {
-		return bookData.getPublicationDate();
-	}
-
-	public void setPublicationDate(Date publicationDate) {
-		this.bookData.setPublicationDate(publicationDate);
-	}
 
 	public Boolean isLent() {
 		return lent;
@@ -80,10 +49,6 @@ public class Book {
 
 	public long getId() {
 		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 	
 	public BookData getBookData() {
