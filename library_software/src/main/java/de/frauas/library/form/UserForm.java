@@ -12,6 +12,22 @@ public class UserForm {
 	
 	private String email;
 	
+	private String role;
+
+	public UserForm() {
+		
+	}
+	
+	public UserForm(String username, String password, String firstName, String lastName, String email, String role) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.role = role;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -41,6 +57,12 @@ public class UserForm {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 
