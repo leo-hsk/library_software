@@ -42,6 +42,16 @@ public class UserDAO implements DAO<User>{
 		}	
 	}
 	
+	public Optional<User> findByEmail(String email) {
+		try {
+			Optional<User> user = userRepository.findbyEmail(email);
+			return user;
+		} catch (Exception e) {
+			System.err.println("No User with email " + email + " found!");
+			return Optional.empty();
+		}	
+	}
+	
 	
 
 	@Override
