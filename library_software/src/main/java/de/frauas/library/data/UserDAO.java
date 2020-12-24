@@ -60,7 +60,6 @@ public class UserDAO implements DAO<User>{
 
 	@Override
 	public void update(User user, String[] params) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		user.setUsername(Objects.requireNonNull(params[0], "Username cannot be null!"));
 		user.setFirstName(Objects.requireNonNull(params[1], "First name cannot be null!"));
