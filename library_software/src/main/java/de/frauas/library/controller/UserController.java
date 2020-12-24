@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +29,7 @@ import de.frauas.library.data.UserDAO;
 import de.frauas.library.form.UserForm;
 import de.frauas.library.model.User;
 import de.frauas.library.repository.RoleRepository;
-import de.frauas.library.security.UserDetailsServiceImpl;
-import de.frauas.library.security.WebSecurityConfig;
+import de.frauas.library.repository.UserRepository;
 
 @Controller
 public class UserController {
@@ -40,6 +40,9 @@ public class UserController {
 	@Autowired
 	RoleRepository roleRepository;
 	
+	@Autowired
+	UserRepository userRepository;
+	
 	@GetMapping(value = {"/register"})
 	public String showRegistrationPage(Model model) {
 		UserForm userForm = new UserForm();
@@ -49,18 +52,11 @@ public class UserController {
 	
 	@GetMapping(value = {"/account"})
 	public String showAccountPage(Model model) {
-//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//		if (principal instanceof UserDetails) {
-//		String username = ((UserDetails)principal).getUsername();
-//		System.out.println(username);
-//		} else {
-//		String username = principal.toString();
-//		System.out.println(username);
-//		}
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = ((UserDetails)principal).getUsername();
+		User user = userRepository.findByUsername(username).get();
 		
-		
-		UserForm userForm = new UserForm();
+		UserForm userForm = new UserForm(user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole().getName().toUpperCase());
 		model.addAttribute("userForm", userForm);
 		return "account";
 	}
@@ -106,6 +102,16 @@ public class UserController {
 		String lastName = userForm.getLastName();
 		String email = userForm.getEmail();
 		
+		if(userRepository.findByUsername(username) != null) {
+			model.addAttribute("errorMessage", "Username already exists.");
+			return "register";
+		}
+		
+		if(userRepository.findbyEmail(email) != null) {
+			model.addAttribute("errorMessage", "There is already an account with the given email");
+			return "register";
+		}
+		
 		if(username.length() > 0
 				&& username != null
 				&& password.length() > 0
@@ -127,28 +133,30 @@ public class UserController {
 		return "register";
 	}
 
-//Not needed
-	@PutMapping(value = "/users/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Object> updateUser(@PathVariable("id") long id, @RequestBody User user,
-			UriComponentsBuilder builder) {
+	@PutMapping(value = "/account")
+	public String updateUser(Model model, @ModelAttribute("userForm") UserForm userForm) {
+		
+		String[] params = new String[4];
+		params[0] = userForm.getUsername();
+		params[1] = userForm.getFirstName();
+		params[2] = userForm.getLastName();
+		params[3] = userForm.getEmail();
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = ((UserDetails)principal).getUsername();
 
-		String[] params = new String[6];
-		params[0] = user.getUsername();
-		params[1] = user.getPassword();
-		params[2] = String.valueOf(user.getRole().getId());
-		params[3] = user.getFirstName();
-		params[4] = user.getLastName();
-		params[5] = user.getEmail();
-
-		if (userDAO.get(id).isEmpty()) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+//		Keep role after reloading page.
+		User user = userRepository.findByUsername(username).get();
+		userForm.setRole(user.getRole().getName().toUpperCase());
+		
+		if (encoder.matches(userForm.getPassword(), userRepository.findByUsername(username).get().getPassword())) {
+			userDAO.update(userDAO.get(username).get(), params);
+			model.addAttribute("successMessage", "Updating account was successful.");
+			return "account";
 		} else {
-			userDAO.update(userDAO.get(id).get(), params);
-			UriComponents path = builder.path("users/").path(String.valueOf(id)).build();
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("Location", path.toUriString());
-			return new ResponseEntity<Object>(headers, HttpStatus.OK);
+			model.addAttribute("errorMessage", "Please enter your old password to verify changes.");
+			return "account";
 		}
 	}
 
