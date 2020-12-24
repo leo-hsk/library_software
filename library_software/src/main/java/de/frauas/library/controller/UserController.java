@@ -29,7 +29,6 @@ import de.frauas.library.data.UserDAO;
 import de.frauas.library.form.UserForm;
 import de.frauas.library.model.User;
 import de.frauas.library.repository.RoleRepository;
-import de.frauas.library.repository.UserRepository;
 
 @Controller
 public class UserController {
@@ -39,9 +38,6 @@ public class UserController {
 	
 	@Autowired
 	RoleRepository roleRepository;
-	
-	@Autowired
-	UserRepository userRepository;
 	
 	@GetMapping(value = {"/register"})
 	public String showRegistrationPage(Model model) {
@@ -54,7 +50,7 @@ public class UserController {
 	public String showAccountPage(Model model) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails)principal).getUsername();
-		User user = userRepository.findByUsername(username).get();
+		User user = userDAO.get(username).get();
 		
 		UserForm userForm = new UserForm(user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole().getName().toUpperCase());
 		model.addAttribute("userForm", userForm);
@@ -82,15 +78,11 @@ public class UserController {
 		}
 	}
 
-	@DeleteMapping(value = "/users/{id}")
-	@ResponseBody
-	public ResponseEntity<Object> deleteUser(@PathVariable("id") long id, UriComponentsBuilder builder) {
-		if (userDAO.get(id).isEmpty()) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-		} else {
-			userDAO.delete(userDAO.get(id).get());
-			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
-		}
+	@DeleteMapping(value = {"account"})
+	public String deleteUser(Model model, @ModelAttribute("userForm") UserForm userForm) {
+//			Überlegen, an welcher Stelle user gelöscht werden soll.
+//			userDAO.delete(userDAO.get(userForm.getUsername()).get());
+			return "/";
 	}
 
 	@PostMapping(value = "/register")
@@ -102,12 +94,12 @@ public class UserController {
 		String lastName = userForm.getLastName();
 		String email = userForm.getEmail();
 		
-		if(userRepository.findByUsername(username) != null) {
+		if(userDAO.findByEmail(email).get() != null) {
 			model.addAttribute("errorMessage", "Username already exists.");
 			return "register";
 		}
 		
-		if(userRepository.findbyEmail(email) != null) {
+		if(userDAO.findByEmail(email).get() != null) {
 			model.addAttribute("errorMessage", "There is already an account with the given email");
 			return "register";
 		}
@@ -147,10 +139,25 @@ public class UserController {
 		String username = ((UserDetails)principal).getUsername();
 
 //		Keep role after reloading page.
-		User user = userRepository.findByUsername(username).get();
+		User user = userDAO.get(username).get();
+		
 		userForm.setRole(user.getRole().getName().toUpperCase());
 		
-		if (encoder.matches(userForm.getPassword(), userRepository.findByUsername(username).get().getPassword())) {
+		if(userDAO.get(userForm.getUsername()).isPresent()) {
+			if(userDAO.get(userForm.getUsername()).get().getUsername() != user.getUsername()) {
+				model.addAttribute("errorMessage", "Username already exists.");
+				return "account";
+			}
+		}
+		
+		if(userDAO.findByEmail(userForm.getEmail()).isPresent()) {
+			if(userDAO.findByEmail(userForm.getEmail()).get().getEmail() != user.getEmail()) {
+				model.addAttribute("errorMessage", "There is already an account with the given email.");
+				return "account";
+			}
+		}
+		
+		if (encoder.matches(userForm.getPassword(), userDAO.get(username).get().getPassword())) {
 			userDAO.update(userDAO.get(username).get(), params);
 			model.addAttribute("successMessage", "Updating account was successful.");
 			return "account";
