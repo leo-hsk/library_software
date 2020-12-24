@@ -7,10 +7,11 @@
 </head>
 <body>
 	<h1>My Account Settings:</h1>
+	<p>You're currently logged in as a [<span th:text="${userForm.role}"></span>].</p>
 	<form th:action="@{/account}" th:object="${userForm}" th:method="PUT">
 		Username: <input type="text" th:field="*{username}" />
 		<br/>
-		Passwort: <input type="text" th:field="*{password}" />
+		Password: <input type="password" th:field="*{password}" />
 		<br/>
 		First Name: <input type="text" th:field="*{firstName}" />
 		<br/>
@@ -18,7 +19,7 @@
 		<br/>
 		Email: <input type="text" th:field="*{email}" />
 		<br/>
-		<input type="submit" value="Alter" />
+		<input type="submit" value="Edit" />
 	</form>
 	<br />
 	<!-- Check if errorMessage is not null and not empty -->
