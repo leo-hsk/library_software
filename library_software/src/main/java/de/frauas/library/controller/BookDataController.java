@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
+import de.frauas.library.data.BookDAO;
 import de.frauas.library.data.BookDataDAO;
 import de.frauas.library.form.BookForm;
+import de.frauas.library.model.Book;
 import de.frauas.library.model.BookData;
 
 @Controller
@@ -30,6 +32,10 @@ public class BookDataController {
 	
 	@Autowired
 	BookDataDAO bookDataDAO;
+	
+	@Autowired
+	BookDAO bookDAO;
+	
 	
 	@GetMapping(value = "/bookData/{isbn13}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -64,6 +70,10 @@ public class BookDataController {
 		BookData bookData = new BookData(title, authors, publisher, publicationDate, isbn13);
 		
 		bookDataDAO.save(bookData);
+		
+		Book book = new Book(bookDataDAO.get(bookForm.getIsbn13()).get());
+		bookDAO.save(book);
+		
 		return "addBook";
 		}
 		
