@@ -116,9 +116,17 @@ public class BookController {
 	@GetMapping(value = "/search")
 	public String search(@Param("keyword") String keyword, Model model) {
 		
-		model.addAttribute("searchResult", bookDAO.search(keyword));
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("pageTitle", "Search results of \'" + keyword + "\'");
+		if(keyword.isBlank()) {
+			model.addAttribute("searchResult", bookDAO.getAll());
+			model.addAttribute("keyword", "All books");
+			model.addAttribute("pageTitle", "All books");
+		}else {
+			model.addAttribute("searchResult", bookDAO.search(keyword));
+			model.addAttribute("keyword", keyword);
+			model.addAttribute("pageTitle", "Search results of \'" + keyword + "\'");
+		}
+		
+
 		
 		return "searchResult";
 	}
