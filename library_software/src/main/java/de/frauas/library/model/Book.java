@@ -33,11 +33,14 @@ public class Book {
 	@Column(columnDefinition = "date default null")
 	private Date lendingDate;
 	
-	
 	public Book() {
 		
 	}
 
+	public Book(BookData bookData) {
+		super();
+		this.bookData = bookData;
+	}
 
 	public Boolean isLent() {
 		return lent;
