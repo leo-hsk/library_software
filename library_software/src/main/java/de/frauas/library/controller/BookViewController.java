@@ -25,5 +25,13 @@ public class BookViewController {
 		model.addAttribute("bookForm", bookForm);
 		return "addBook";
 	}
+	
+//	Temporary method
+	@GetMapping(value = {"/fragments"})
+	public String showSearchPage(Model model) {
+
+		return "fragments";
+	}
+
 
 }
