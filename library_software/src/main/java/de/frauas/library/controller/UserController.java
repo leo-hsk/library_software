@@ -57,14 +57,11 @@ public class UserController {
 		return "account";
 	}
 
-	@GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<User>> getUsers() {
-		if (userDAO.getAll().isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<>(userDAO.getAll(), HttpStatus.OK);
-		}
+	@GetMapping(value = "/users")
+	public String getUsers(Model model) {
+		model.addAttribute("users", userDAO.getAll());
+		
+		return "users";
 	}
 
 	@GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
