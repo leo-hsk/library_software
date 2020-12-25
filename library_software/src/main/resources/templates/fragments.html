@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Account Settings</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+	<div th:fragment="searchnav">
+		<form th:action="@{/search}" method="GET">
+		<input type="search" name="keyword" placeholder="keyword" required>
+		<input type="submit" value="Search">
+		</form>
+	</div>
+</body>
+</html>
