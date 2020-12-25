@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,14 +22,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import de.frauas.library.data.BookDAO;
 import de.frauas.library.model.Book;
 
-@RestController
+@Controller
 public class BookController {
 	
 	@Autowired
@@ -76,6 +78,7 @@ public class BookController {
 		}
 	}
 	
+//  Only for testing purposes
 	@PostMapping(value = "/books", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Object> addBook(@RequestBody Book book, UriComponentsBuilder builder) {
@@ -108,9 +111,20 @@ public class BookController {
 			headers.add("Location", path.toUriString());
 			return new ResponseEntity<Object>(headers, HttpStatus.OK);
 		}
+	}	
+	
+	@GetMapping(value = "/search")
+	public String search(@Param("keyword") String keyword, Model model) {
+		
+		model.addAttribute("searchResult", bookDAO.search(keyword));
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("pageTitle", "Search results of \'" + keyword + "\'");
+		
+		return "searchResult";
 	}
-
-//	Change to put mapping
+	
+	
+//	Not needed
 	@PatchMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Object> editBook(@PathVariable("id") long id,
@@ -138,6 +152,13 @@ public class BookController {
 			headers.add("Location", path.toUriString());
 			return new ResponseEntity<Object>(headers, HttpStatus.OK);
 		}
+	}
+	
+	
+	@GetMapping(value = "books")
+	public String listStudents(Model model) {
+		model.addAttribute("books", bookDAO.getAll());
+		return "books";
 	}
 	
 	
