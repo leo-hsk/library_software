@@ -75,7 +75,7 @@ public class BookDAO implements DAO<Book>{
 		}
 		else {
 		book.setLent(Boolean.valueOf(param[0]));
-		book.setUser(userRepository.getOne(Long.valueOf(param[1])));
+		book.setUser(userRepository.findByUsername(param[1]).get());
 		book.setLendingDate(Date.valueOf(param[2]));
 		}
 		
@@ -84,6 +84,10 @@ public class BookDAO implements DAO<Book>{
 	
 	public List<Book> search(String keyword) {
 		return bookRepository.search(keyword);
+	}
+	
+	public List<Book> findByIsbn13(long isbn13) {
+		return bookRepository.findByIsbn13(isbn13);
 	}
 
 
