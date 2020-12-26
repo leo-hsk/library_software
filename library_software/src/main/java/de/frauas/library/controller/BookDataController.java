@@ -84,8 +84,14 @@ public class BookDataController {
 	@DeleteMapping(value = "/search")
 	public String deleteBookData(@Param("isbn13") long isbn13, Model model) {
 	
-		bookDataDAO.delete(bookDataDAO.get(isbn13).get());
+		if(bookDAO.findByIsbn13(isbn13).get(0).isLent()) {
+			model.addAttribute("errorMessage", "You cannot delete book with ISBN13 '" + isbn13 + "', because it is lent.");
+			return "fragments";
+		}
+		
 		bookDAO.delete(bookDAO.findByIsbn13(isbn13).get(0));
+		bookDataDAO.delete(bookDataDAO.get(isbn13).get());
+		model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' is deleted.");
 		
 //		Change return page
 		return "fragments";
