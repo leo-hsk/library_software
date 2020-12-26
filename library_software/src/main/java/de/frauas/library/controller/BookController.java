@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +18,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import de.frauas.library.data.BookDAO;
@@ -84,41 +79,6 @@ public class BookController {
 		}
 	}
 	
-//  Only for testing purposes
-	@PostMapping(value = "/books", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Object> addBook(@RequestBody Book book, UriComponentsBuilder builder) {
-		bookDAO.save(book);
-		UriComponents path = builder.path("books/").path(String.valueOf(book.getId())).build();
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", path.toUriString());
-		return new ResponseEntity<Object>(headers, HttpStatus.CREATED);
-	}
-	
-//	Not needed
-	@PutMapping(value = "/books/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Object> updateBooks(@PathVariable("id") long id,
-			@RequestBody Book book, UriComponentsBuilder builder) {
-		
-		String[] params = new String[5];
-//		params[0] = book.getTitle();
-//		params[1] = book.getAuthors();
-		params[2] = String.valueOf(book.getBookData().getIsbn13());
-//		params[3] = book.getPublicationDate().toString();
-//		params[4] = book.getPublisher();
-
-		if (bookDAO.get(id).isEmpty()) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-		} else {
-			bookDAO.update(bookDAO.get(id).get(), params);
-			UriComponents path = builder.path("books/").path(String.valueOf(id)).build();
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("Location", path.toUriString());
-			return new ResponseEntity<Object>(headers, HttpStatus.OK);
-		}
-	}	
-	
 	@GetMapping(value = "/search")
 	public String search(@Param("keyword") String keyword, Model model) {
 		
@@ -158,7 +118,7 @@ public class BookController {
 		}	
 		bookDAO.edit(book, param);
 //		Add model.addAttribute when you know the right page to redirect
-		return "/fragments";
+		return "searchResult";
 	}
 	
 	
