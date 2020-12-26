@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -75,11 +77,21 @@ public class UserController {
 		}
 	}
 
-	@DeleteMapping(value = {"account"})
+	@DeleteMapping(value = {"/account"})
 	public String deleteUser(Model model, @ModelAttribute("userForm") UserForm userForm) {
 //			Überlegen, an welcher Stelle user gelöscht werden soll.
 //			userDAO.delete(userDAO.get(userForm.getUsername()).get());
 			return "/";
+	}
+	
+	@DeleteMapping(value = {"/users"})
+	public String deleteUser(@Param("username") String username, Model model) {
+
+			userDAO.delete(userDAO.get(username).get());
+			System.out.println(username);
+			model.addAttribute("users", userDAO.getAll());
+			model.addAttribute("successMessage", "Deleting user was successful.");
+			return "/users";
 	}
 
 	@PostMapping(value = "/register")

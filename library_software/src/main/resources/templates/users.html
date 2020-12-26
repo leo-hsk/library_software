@@ -23,9 +23,18 @@
 				<td th:utext="${user.firstName}">...</td>
 				<td th:utext="${user.lastName}">...</td>
 				<td th:utext="${user.role?.name}">...</td>
-				<td><button onclick= "console.log('Test')">delete</button></td>
+				<td>
+					<form th:method="DELETE">
+						<input type="hidden" name ="username" th:value="${user.username}">
+						<input type="submit" value="delete">
+					</form>
+				</td>
 			</tr>
 		</table>
+		<!-- Check if errorMessage is not null and not empty -->
+		<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>
+		<!-- Tell user that he successfully altered the account settings -->
+		<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic;">...</div>
 	</div>
 </body>
 </html>
