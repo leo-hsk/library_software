@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -81,15 +81,14 @@ public class BookDataController {
 		return "addBook";
 	}
 	
-	@DeleteMapping(value = "/bookData/{isbn13}")
-	public ResponseEntity<Object> deleteBookData(@PathVariable("isbn13") long isbn13, UriComponentsBuilder builder) {	
-		if(bookDataDAO.get(isbn13).isEmpty()) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-		}
-		else {
-			bookDataDAO.delete(bookDataDAO.get(isbn13).get());
-			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
-		}
+	@DeleteMapping(value = "/search")
+	public String deleteBookData(@Param("isbn13") long isbn13, Model model) {
+	
+		bookDataDAO.delete(bookDataDAO.get(isbn13).get());
+		bookDAO.delete(bookDAO.findByIsbn13(isbn13).get(0));
+		
+//		Change return page
+		return "fragments";
 	}
 
 }

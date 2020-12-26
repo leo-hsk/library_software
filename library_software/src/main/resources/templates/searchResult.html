@@ -17,6 +17,7 @@
 				<th>ISBN 13</th>
 				<th>Lent</th>
 				<th>Action</th>
+				<th>Admin</th>
 			</tr>
 			<tr th:each="book : ${searchResult}">
 				<td th:utext="${book.bookData?.title}">...</td>
@@ -32,6 +33,12 @@
 					<form th:case=${false} th:method="PATCH">
 						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
 						<input type="submit" value="lend">
+					</form>
+				</td>
+				<td>
+					<form th:method="DELETE">
+						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
+						<input type="submit" value="delete">
 					</form>
 				</td>
 
