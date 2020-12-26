@@ -89,6 +89,10 @@ public class BookDAO implements DAO<Book>{
 	public List<Book> findByIsbn13(long isbn13) {
 		return bookRepository.findByIsbn13(isbn13);
 	}
+	
+	public List<Book> findByUser(long id) {
+		return bookRepository.findByUser(id);
+	}
 
 
 }

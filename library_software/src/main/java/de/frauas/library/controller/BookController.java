@@ -28,6 +28,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import de.frauas.library.data.BookDAO;
+import de.frauas.library.data.UserDAO;
 import de.frauas.library.model.Book;
 
 @Controller
@@ -35,6 +36,9 @@ public class BookController {
 	
 	@Autowired
 	BookDAO bookDAO;
+	
+	@Autowired
+	UserDAO userDAO;
 	
 	
 	@RequestMapping("/")
@@ -159,9 +163,19 @@ public class BookController {
 	
 	
 	@GetMapping(value = "books")
-	public String listStudents(Model model) {
+	public String listBooks(Model model) {
 		model.addAttribute("books", bookDAO.getAll());
 		return "books";
+	}
+	
+	@GetMapping(value = "/myBooks")
+	public String listBooksFromUser(Model model) {
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = ((UserDetails)principal).getUsername();
+		
+		model.addAttribute("books", bookDAO.findByUser(userDAO.get(username).get().getId()));
+		return "myBooks";
 	}
 	
 	
