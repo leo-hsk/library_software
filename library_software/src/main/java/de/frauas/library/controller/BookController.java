@@ -11,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -124,42 +126,35 @@ public class BookController {
 			model.addAttribute("searchResult", bookDAO.search(keyword));
 			model.addAttribute("keyword", keyword);
 			model.addAttribute("pageTitle", "Search results of \'" + keyword + "\'");
-		}
-		
-
-		
+		}	
 		return "searchResult";
 	}
 	
 	
-//	Not needed
-	@PatchMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Object> editBook(@PathVariable("id") long id,
-												@RequestBody Book book, UriComponentsBuilder builder) {
-		if(bookDAO.get(id).isEmpty()) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-		}
-		else {
-			String[] param = new String[3];
+	@PatchMapping(value = "/search")
+	public String lendBook(@Param("isbn13") long isbn13, Model model) {
+		
+		System.out.println(isbn13);
+
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = ((UserDetails)principal).getUsername();
+		
+		Book book = bookDAO.findByIsbn13(isbn13).get(0);
 			
-			if(book.isLent()) {
-				Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-				
-				param[0] = String.valueOf(book.isLent());
-				param[1] = String.valueOf(book.getUser().getId());
-				param[2] = sqlDate.toString();
-				
-			} else {
-				param = null;
-			}
-			
-			bookDAO.edit(bookDAO.get(id).get(), param);
-			UriComponents path = builder.path("books/").path(String.valueOf(id)).build();
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("Location", path.toUriString());
-			return new ResponseEntity<Object>(headers, HttpStatus.OK);
-		}
+		String[] param = new String[3];
+		Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		
+		if(!book.isLent()) {
+			param [0] = "true";
+			param[1] = username;
+			param[2] = sqlDate.toString();		
+		} else {
+			param = null;
+		}	
+		bookDAO.edit(book, param);
+//		Add model.addAttribute when you know the right page to redirect
+		return "/fragments";
 	}
 	
 	
