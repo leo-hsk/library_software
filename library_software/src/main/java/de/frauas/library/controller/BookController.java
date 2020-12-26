@@ -98,9 +98,6 @@ public class BookController {
 	@PatchMapping(value = "/search")
 	public String lendBook(@Param("isbn13") long isbn13, Model model) {
 		
-		System.out.println(isbn13);
-
-		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails)principal).getUsername();
 		

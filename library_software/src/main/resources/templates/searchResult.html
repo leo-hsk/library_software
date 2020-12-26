@@ -18,6 +18,7 @@
 				<th>Lent</th>
 				<th>Action</th>
 				<th>Admin</th>
+				<th>Admin</th>
 			</tr>
 			<tr th:each="book : ${searchResult}">
 				<td th:utext="${book.bookData?.title}">...</td>
@@ -39,6 +40,12 @@
 					<form th:method="DELETE">
 						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
 						<input type="submit" value="delete">
+					</form>
+				</td>
+				<td th:switch="${book.lent}">
+					<form th:case="${true}" th:method="PATCH">
+						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
+						<input type="submit" value="return">
 					</form>
 				</td>
 
