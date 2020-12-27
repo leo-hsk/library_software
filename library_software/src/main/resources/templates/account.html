@@ -6,7 +6,8 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
-	<h1>My Account Settings:</h1>
+	<header th:insert="fragments/header.html :: header"> </header>
+	<h2>My Account Settings:</h2>
 	<p>You're currently logged in as a [<span th:text="${userForm.role}"></span>].</p>
 	<form th:action="@{/account}" th:object="${userForm}" th:method="PUT">
 		Username: <input type="text" th:field="*{username}" />
@@ -26,5 +27,7 @@
 	<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>
 	<!-- Tell user that he successfully altered the account settings -->
 	<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic;">...</div>
+	
+	<footer th:insert="fragments/footer.html :: footer"> </footer>
 </body>
 </html>

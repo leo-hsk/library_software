@@ -2,11 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>Add Book</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
-	<h1>Add Book:</h1>
+<header th:insert="fragments/header.html :: header"> </header>
+	<h2>Add Book:</h2>
 	<form th:action="@{/addBook}" th:object="${bookForm}" method="POST">
 		Title: <input type="text" th:field="*{title}" />
 		<br/>
@@ -23,5 +25,6 @@
 	<br />
 	<!-- Check if errorMessage is not null and not empty -->
 	<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>
+	<footer th:insert="fragments/footer.html :: footer"> </footer>
 </body>
 </html>

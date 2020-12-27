@@ -2,11 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>List of Users</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body>
-	<h1>List of all users</h1>
+<header th:insert="fragments/header.html :: header"> </header>
+	<h2>List of all users</h2>
 	<div>
 		<table border="1">
 			<tr>
@@ -36,5 +38,6 @@
 		<!-- Tell user that he successfully altered the account settings -->
 		<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic;">...</div>
 	</div>
+	<footer th:insert="fragments/footer.html :: footer"> </footer>
 </body>
 </html>

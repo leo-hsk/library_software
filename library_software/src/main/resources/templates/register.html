@@ -2,11 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>Registration</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
-	<h1>Register Account:</h1>
+<header th:insert="fragments/header.html :: header"> </header>
+	<h2>Register Account:</h2>
 	<form th:action="@{/register}" th:object="${userForm}" method="POST">
 		Username: <input type="text" th:field="*{username}" />
 		<br/>
@@ -25,5 +27,6 @@
 	<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>
 	<!-- Tell user that he is registered now -->
 	<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic;">...</div>
+	<footer th:insert="fragments/footer.html :: footer"> </footer>
 </body>
 </html>
