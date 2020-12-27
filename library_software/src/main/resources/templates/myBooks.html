@@ -8,25 +8,27 @@
 </head>
 <body>
 	<header th:insert="fragments/header.html :: header"> </header>
-	<h2>My books</h2>
-	<div>
-		<table border="1">
-			<tr>
+	<h2>My Books</h2>
+	<div class="main-content">
+		<table class="table">
+			<thead>
 				<th>Title</th>
-				<th>authors</th>
+				<th>Authors</th>
 				<th>Publisher</th>
 				<th>Publication Date</th>
 				<th>ISBN 13</th>
 				<th>Lending Date</th>
-			</tr>
+			</thead>
+			<tbody>
 			<tr th:each="book : ${books}">
-				<td th:utext="${book.bookData?.title}">...</td>
-				<td th:utext="${book.bookData?.authors}">...</td>
-				<td th:utext="${book.bookData?.publisher}">...</td>
-				<td th:utext="${book.bookData?.publicationDate}">...</td>
-				<td th:utext="${book.bookData?.isbn13}">...</td>
-				<td th:utext="${book.lendingDate}"></td>
+				<td data-label="Title" th:utext="${book.bookData?.title}">...</td>
+				<td data-label="Authors" th:utext="${book.bookData?.authors}">...</td>
+				<td data-label="Publisher" th:utext="${book.bookData?.publisher}">...</td>
+				<td data-label="Publication Date" th:utext="${book.bookData?.publicationDate}">...</td>
+				<td data-label="ISBN 13" th:utext="${book.bookData?.isbn13}">...</td>
+				<td data-label="Lending Date" th:utext="${book.lendingDate}"></td>
 			</tr>
+			</tbody>
 		</table>
 	</div>
 	<footer th:insert="fragments/footer.html :: footer"> </footer>
