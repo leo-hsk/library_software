@@ -9,8 +9,9 @@
 <body>
 <header th:insert="fragments/header.html :: header"> </header>
 	<h2>List of all users</h2>
-	<div>
-		<table border="1">
+	<div class="main-content">
+		<table class="table">
+		<thead>
 			<tr>
 				<th>Username</th>
 				<th>Email</th>
@@ -19,19 +20,22 @@
 				<th>Role</th>
 				<th>Action</th>
 			</tr>
+			</thead>
+			<tbody>
 			<tr th:each="user : ${users}">
-				<td th:utext="${user.username}">...</td>
-				<td th:utext="${user.email}">...</td>
-				<td th:utext="${user.firstName}">...</td>
-				<td th:utext="${user.lastName}">...</td>
-				<td th:utext="${user.role?.name}">...</td>
-				<td>
+				<td data-label="Username" th:utext="${user.username}">...</td>
+				<td data-label="Email" th:utext="${user.email}">...</td>
+				<td data-label="First Name" th:utext="${user.firstName}">...</td>
+				<td data-label="Last Name" th:utext="${user.lastName}">...</td>
+				<td data-label="Role" th:utext="${user.role?.name}">...</td>
+				<td data-label="Action">
 					<form th:method="DELETE">
 						<input type="hidden" name ="username" th:value="${user.username}">
 						<input type="submit" value="delete">
 					</form>
 				</td>
 			</tr>
+			</tbody>
 		</table>
 		<!-- Check if errorMessage is not null and not empty -->
 		<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>

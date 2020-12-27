@@ -9,11 +9,12 @@
 <body>
 	<header th:insert="fragments/header.html :: header"> </header>
 	<h2>Search Result for '[[${keyword}]]'</h2>
-	<div>
-		<table border="1">
+	<div class="main-content">
+		<table class="table">
+		<thead>
 			<tr>
 				<th>Title</th>
-				<th>authors</th>
+				<th>Authors</th>
 				<th>Publisher</th>
 				<th>Publication Date</th>
 				<th>ISBN 13</th>
@@ -22,36 +23,38 @@
 				<th>Admin</th>
 				<th>Admin</th>
 			</tr>
+			</thead>
+			<tbody>
 			<tr th:each="book : ${searchResult}">
-				<td th:utext="${book.bookData?.title}">...</td>
-				<td th:utext="${book.bookData?.authors}">...</td>
-				<td th:utext="${book.bookData?.publisher}">...</td>
-				<td th:utext="${book.bookData?.publicationDate}">...</td>
-				<td th:utext="${book.bookData?.isbn13}">...</td>
-				<td th:switch="${book.lent}">
+				<td data-label="Title" th:utext="${book.bookData?.title}">...</td>
+				<td data-label="Authors" th:utext="${book.bookData?.authors}">...</td>
+				<td data-label="Publisher" th:utext="${book.bookData?.publisher}">...</td>
+				<td data-label="Publication Date" th:utext="${book.bookData?.publicationDate}">...</td>
+				<td data-label="ISBN 13" th:utext="${book.bookData?.isbn13}">...</td>
+				<td data-label="Lent" th:switch="${book.lent}">
 					<span th:case=${true}>Yes</span>
 					<span th:case=${false}>No</span>
 				</td>
-				<td th:switch="${book.lent}">
+				<td data-label="Action" th:switch="${book.lent}">
 					<form th:case=${false} th:method="PATCH">
 						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
 						<input type="submit" value="lend">
 					</form>
 				</td>
-				<td>
+				<td data-label="Admin" >
 					<form th:method="DELETE">
 						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
 						<input type="submit" value="delete">
 					</form>
 				</td>
-				<td th:switch="${book.lent}">
+				<td data-label="Admin" th:switch="${book.lent}">
 					<form th:case="${true}" th:method="PATCH">
 						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
 						<input type="submit" value="return">
 					</form>
 				</td>
-
 			</tr>
+			</tbody>
 		</table>
 	</div>
 	<footer th:insert="fragments/footer.html :: footer"> </footer>
