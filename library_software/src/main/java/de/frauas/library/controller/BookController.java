@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -36,10 +35,9 @@ public class BookController {
 	UserDAO userDAO;
 	
 	
-	@RequestMapping("/")
-	@ResponseBody
+	@GetMapping(value = {"/", "/index"})
 	public String welcome() {
-		return "RESTful Application";
+		return "index";
 	}
 	
 	
