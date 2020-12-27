@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <title>My books</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-	<h1>My books</h1>
+	<header th:insert="fragments/header.html :: header"> </header>
+	<h2>My books</h2>
 	<div>
 		<table border="1">
 			<tr>

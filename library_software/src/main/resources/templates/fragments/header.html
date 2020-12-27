@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<!--<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /> -->
+<link rel="stylesheet" href="..\..\static\css\style.css" />
+<script defer
+	src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+</head>
+<body>
+	<div th:fragment="header">
+		<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+		
+		<nav class="navbar">
+			<div class="brand-title">Library Software</div>
+			<a href="#" class="toggle-button"> <span class="bar"></span>
+			<span class="bar"></span> <span class="bar"></span>
+			</a>
+			<div class="navbar-links">
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li class="no-hover">
+						<div class="search-box">
+						<form class="search-form" th:action="@{/search}" method="GET">
+							<input class="search-txt" type="search" name="keyword" placeholder="Type to search">
+							<button class="search-btn" type="submit" value="Search"><i class="fas fa-search"></i></button>	
+						</form>
+						
+						<!--<input class="search-btn" type="submit" value="Search"> -->
+					</div>
+					</li>
+					<li><a href="#">Add Book</a></li>
+					<li><a href="#">Users</a></li>
+					<li><a href="#">Login</a></li>
+					<li><a href="#">Register</a></li>
+				</ul>
+			</div>
+		</nav>
+		<script type="text/javascript">
+			const toggleButton = document.getElementsByClassName('toggle-button')[0]
+			const navbarLinks = document.getElementsByClassName('navbar-links')[0]
+
+			toggleButton.addEventListener('click', () => {
+				navbarLinks.classList.toggle('active')
+			})
+		</script>
+	</div>
+</body>
+
+</html>

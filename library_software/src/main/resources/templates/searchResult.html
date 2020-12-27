@@ -6,7 +6,8 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body>
-	<h1>Search Result for '[[${keyword}]]'</h1>
+	<header th:insert="fragments/header.html :: header"> </header>
+	<h2>Search Result for '[[${keyword}]]'</h2>
 	<div>
 		<table border="1">
 			<tr>
