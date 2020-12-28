@@ -12,6 +12,9 @@ h2 {
 	text-align: center;
 	text-transform: uppercase;
 }
+button:focus {
+	outline: none;
+}
 
 .main-content {
 	min-height: 70%;
