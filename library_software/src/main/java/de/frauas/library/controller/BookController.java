@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -94,7 +95,7 @@ public class BookController {
 	
 	
 	@PatchMapping(value = "/search")
-	public String lendBook(@Param("isbn13") long isbn13, Model model) {
+	public String lendBook(@Param("isbn13") long isbn13, @Param("keyword2") String keyword, Model model) {
 		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails)principal).getUsername();
@@ -117,7 +118,13 @@ public class BookController {
 		}	
 		bookDAO.edit(book, param);
 		
-		model.addAttribute("searchResult", bookDAO.getAll());
+		if(keyword.isBlank()) {
+			model.addAttribute("keyword", "All books");
+			model.addAttribute("searchResult", bookDAO.getAll());
+			return "searchResult";
+		}
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("searchResult", bookDAO.search(keyword));
 		return "searchResult";
 	}
 	
