@@ -92,9 +92,9 @@ public class BookDataController {
 		
 		bookDAO.delete(bookDAO.findByIsbn13(isbn13).get(0));
 		bookDataDAO.delete(bookDataDAO.get(isbn13).get());
-		model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' is deleted.");
+		model.addAttribute("searchResult", bookDAO.getAll());
+		model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' deleted.");
 		
-//		Change return page
 		return "searchResult";
 	}
 

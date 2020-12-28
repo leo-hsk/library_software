@@ -107,12 +107,17 @@ public class BookController {
 		if(!book.isLent()) {
 			param [0] = "true";
 			param[1] = username;
-			param[2] = sqlDate.toString();		
+			param[2] = sqlDate.toString();
+			
+			model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' lent.");
 		} else {
 			param = null;
+			
+			model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' returned.");
 		}	
 		bookDAO.edit(book, param);
-//		Add model.addAttribute when you know the right page to redirect
+		
+		model.addAttribute("searchResult", bookDAO.getAll());
 		return "searchResult";
 	}
 	
