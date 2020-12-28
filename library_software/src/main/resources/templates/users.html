@@ -28,10 +28,10 @@
 				<td data-label="First Name" th:utext="${user.firstName}">...</td>
 				<td data-label="Last Name" th:utext="${user.lastName}">...</td>
 				<td data-label="Role" th:utext="${user.role?.name}">...</td>
-				<td data-label="Action">
+				<td class="td-contains-btn">
 					<form th:method="DELETE">
 						<input type="hidden" name ="username" th:value="${user.username}">
-						<input type="submit" value="delete">
+						<input class="table-delete-btn" type="submit" value="delete">
 					</form>
 				</td>
 			</tr>

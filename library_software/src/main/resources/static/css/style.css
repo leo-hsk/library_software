@@ -69,7 +69,7 @@ html, body {
 	border-radius: 10px;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
 	.toggle-button {
 		display: flex;
 	}
@@ -225,6 +225,7 @@ footer {
 	text-transform: uppercase;
 	opacity: .4;
 	font-weight: 200;
+	white-space: nowrap;
 }
 
 
@@ -257,6 +258,41 @@ table {
 
 }
 
+
+.table-btn {
+		background: #333;
+		text-align: center;
+		padding: 10px;
+		border-radius: 5px;
+		color: white;
+		cursor: pointer;
+		text-transform: uppercase;
+		border: none;
+		width: 70px;
+	}
+
+	.table-btn:hover {
+		color: white;
+		background: #ffaf00;
+	}
+
+	.table-delete-btn {
+		background: #333;
+		text-align: center;
+		padding: 10px;
+		border-radius: 5px;
+		color: white;
+		cursor: pointer;
+		text-transform: uppercase;
+		border: none;
+		width: 70px;
+	}
+
+	.table-delete-btn:hover {
+		color: white;
+		background: #cc0000;
+	}
+
 .table th {
 	/*color: #333;
 	background-color: #ffaf00; */
@@ -265,10 +301,11 @@ table {
 .table tbody tr:nth-child(even) {
 	background-color: #f3f3f3; /* light grey lines */
 	border-bottom: 1px solid #dbdbdb;
-	border-top: 1px solid #dbdbdb
+	border-top: 1px solid #dbdbdb;
+	padding-bottom: 15px;
 }
 
-@media(max-width: 700px) {
+@media(max-width: 1000px) {
 	.table thead {
 		display: none;
 	}
@@ -282,25 +319,71 @@ table {
 	}
 	.table td {
 		text-align: right;
-		padding-left: 50%;
-		text-align: right;
+		padding-left: 40%;
 		position: relative;
+		height: 50px;
 	}
 
-/*	.table tbody tr:last-of-type{
-	border-bottom: 2px solid #ffaf00
-} */
+	.table .td-contains-btn {
+		display: flex;
+		text-align: center;
+		padding-left: 0;
+		padding-right: 0;
+		width: 100%;
+	}
+
+	.table .td-contains-btn form{
+		text-align: center;
+		padding: auto;
+		margin: auto;
+	}
+
+	.table-btn {
+		background: #333;
+		text-align: center;
+		padding: 10px;
+		border-radius: 5px;
+		color: white;
+		cursor: pointer;
+		text-transform: uppercase;
+		border: none;
+		width: 250px;
+	}
+
+	.table-btn:hover {
+		color: white;
+		background: #ffaf00;
+	}
+
+	.table-delete-btn {
+		background: #333;
+		text-align: center;
+		padding: 10px;
+		border-radius: 5px;
+		color: white;
+		cursor: pointer;
+		text-transform: uppercase;
+		border: none;
+		width: 250px;
+	}
+
+	.table-delete-btn:hover {
+		color: white;
+		background: #cc0000;
+	}
+
+	
 
 	.table td::before {
 		content: attr(data-label);
 		position: absolute;
 		left: 0;
-		width: 50%;
+		width: 40%;
 		padding-left: 15px;
 		font-size: 15px;
 		font-weight: bold;
 		text-align: left;
-	}
+	} 
 }
 
 
@@ -337,7 +420,8 @@ table {
 
 .input-fields span{
 	margin-bottom: -15px;
-	color: rgba(255, 255, 255, 0.6);
+	color: #ffaf00;
+	opacity: .7;
 }
 
 
