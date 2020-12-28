@@ -41,21 +41,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http//.httpBasic().disable(); // DELETE FOR SPRING SECURITY FUNCTIONALITY
+		http
 		.authorizeRequests()
-		.antMatchers("/", "/index").hasAnyAuthority("user", "admin")
+		.antMatchers("/", "/index", "resources/**", "/register").permitAll()
+		.and()
+		.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/search/**").hasAnyAuthority("user", "admin")
 		.antMatchers(HttpMethod.PATCH, "/search/**").hasAnyAuthority("user", "admin")
 		.antMatchers(HttpMethod.DELETE, "/search/**").hasAnyAuthority("admin")
 		.antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("admin")
 		.antMatchers(HttpMethod.DELETE, "/users/**").hasAnyAuthority("admin")
+		.antMatchers(HttpMethod.GET, "/addBook").hasAnyAuthority("admin")
 		.antMatchers(HttpMethod.POST, "/addBook").hasAnyAuthority("admin")
 		.antMatchers(HttpMethod.GET, "/myBooks").hasAnyAuthority("admin")
 		.antMatchers(HttpMethod.PUT, "/account").hasAnyAuthority("user", "admin")
 		.antMatchers(HttpMethod.GET, "/account").hasAnyAuthority("user", "admin")
-		.antMatchers(HttpMethod.GET, "/register").permitAll()
 		.antMatchers(HttpMethod.GET, "/login").permitAll()
-		.anyRequest().authenticated()
 		.and()
 		.httpBasic()
 		.and()
