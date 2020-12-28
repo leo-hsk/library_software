@@ -32,9 +32,9 @@
 				<td data-label="Publisher" th:utext="${book.bookData?.publisher}">...</td>
 				<td data-label="Publication Date" th:utext="${book.bookData?.publicationDate}">...</td>
 				<td data-label="ISBN 13" th:utext="${book.bookData?.isbn13}">...</td>
-				<td data-label="Lent" th:switch="${book.lent}">
-					<span th:case=${true}>Yes</span>
-					<span th:case=${false}>No</span>
+				<td data-label="Lent" th:switch="${book.lent}" >
+					<span th:case=${true} th:id="${#ids.seq('lend')}" >Yes</span>
+					<span th:case=${false} th:id="${#ids.seq('lend')}" >No</span>
 				</td>
 				<td class="td-contains-btn" th:switch="${book.lent}">
 					<form th:case=${false} th:method="PATCH">
@@ -51,7 +51,7 @@
 				<td class="td-contains-btn">
 					<form th:method="DELETE">
 						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
-						<input class="table-delete-btn" type="submit" value="delete" onclick="return deleteBookConfirm();">
+						<input class="table-delete-btn" type="submit" value="delete" onclick="return deleteBookConfirm(this.id);" th:id="${#ids.seq('btn')}">
 					</form>
 				</td>
 			</tr>
