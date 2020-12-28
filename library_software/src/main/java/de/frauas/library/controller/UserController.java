@@ -83,7 +83,6 @@ public class UserController {
 
 //		Keep role after reloading page.
 		User user = userDAO.get(username).get();
-		
 		userForm.setRole(user.getRole().getName().toUpperCase());
 		
 		if (encoder.matches(userForm.getPassword(), userDAO.get(username).get().getPassword())) {
@@ -102,11 +101,15 @@ public class UserController {
 	
 	@DeleteMapping(value = {"/users"})
 	public String deleteUser(@Param("username") String username, Model model) {
-
+		if(bookDAO.findByUser(userDAO.get(username).get().getId()).isEmpty()) {
 			userDAO.delete(userDAO.get(username).get());
 			model.addAttribute("users", userDAO.getAll());
 			model.addAttribute("successMessage", "Deleting user was successful.");
-			return "/users";
+			return "users";
+		}
+		model.addAttribute("users", userDAO.getAll());
+		model.addAttribute("errorMessage", "User needs to return books before you can delete the account.");
+		return "users";	
 	}
 
 	@PostMapping(value = "/register")
@@ -164,7 +167,6 @@ public class UserController {
 
 //		Keep role after reloading page.
 		User user = userDAO.get(username).get();
-		
 		userForm.setRole(user.getRole().getName().toUpperCase());
 		
 		if(userDAO.get(userForm.getUsername()).isPresent()) {
