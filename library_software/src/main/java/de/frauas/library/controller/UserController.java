@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import de.frauas.library.data.BookDAO;
 import de.frauas.library.data.UserDAO;
 import de.frauas.library.form.UserForm;
 import de.frauas.library.model.User;
@@ -30,6 +31,9 @@ public class UserController {
 
 	@Autowired
 	UserDAO userDAO;
+	
+	@Autowired
+	BookDAO bookDAO;
 	
 	@Autowired
 	RoleRepository roleRepository;
@@ -83,8 +87,13 @@ public class UserController {
 		userForm.setRole(user.getRole().getName().toUpperCase());
 		
 		if (encoder.matches(userForm.getPassword(), userDAO.get(username).get().getPassword())) {
-			userDAO.delete(user);
-			return "redirect:/logout";
+			if(bookDAO.findByUser(userDAO.get(username).get().getId()).isEmpty()) {
+				userDAO.delete(user);
+				return "redirect:/logout";
+			}
+			model.addAttribute("errorMessage", "You need to return books before you can delete your account.");
+			return "account";
+			
 		} else {
 			model.addAttribute("errorMessage", "Please enter your password to confirm deletion.");
 			return "account";
