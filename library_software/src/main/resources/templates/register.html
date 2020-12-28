@@ -14,7 +14,7 @@
 	<form class="input-fields" th:action="@{/register}" th:object="${userForm}" method="POST">
 		
 		<input class="input" type="text" th:field="*{username}" placeholder="Enter Username" />
-		<input class="input" type="text" th:field="*{password}" placeholder="Enter Password" />
+		<input class="input" type="password" th:field="*{password}" placeholder="Enter Password" />
 		<input class="input" type="text" th:field="*{firstName}" placeholder="Enter First Name" />
 		<input class="input" type="text" th:field="*{lastName}" placeholder="Enter Last Name" />
 		<input class="input" type="text" th:field="*{email}" placeholder="Enter Email" />
@@ -27,6 +27,6 @@
 	<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic; text-align: center">...</div>
 	</div>
 	</div>
-	<footer th:insert="fragments/footer.html :: footer"> </footer>
+	<footer th:replace="fragments/footer.html :: footer"> </footer>
 </body>
 </html>

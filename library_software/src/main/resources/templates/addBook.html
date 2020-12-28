@@ -24,6 +24,6 @@
 	<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic; text-align: center">...</div>
 	</div>
 	</div>
-	<footer th:insert="fragments/footer.html :: footer"> </footer>
+	<footer th:replace="fragments/footer.html :: footer"> </footer>
 </body>
 </html>

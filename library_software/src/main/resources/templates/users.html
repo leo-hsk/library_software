@@ -42,6 +42,6 @@
 		<!-- Tell user that he successfully altered the account settings -->
 		<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic;">...</div>
 	</div>
-	<footer th:insert="fragments/footer.html :: footer"> </footer>
+	<footer th:replace="fragments/footer.html :: footer"> </footer>
 </body>
 </html>
