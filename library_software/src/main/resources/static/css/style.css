@@ -14,7 +14,7 @@ h2 {
 }
 
 .main-content {
-	min-height: 87%;
+	min-height: 70%;
 }
 
 .navbar {
@@ -172,7 +172,7 @@ footer {
 	width: 100%;
 	padding-top: 20px;
 	color: white;
-	margin-top: -100px;
+	margin-top: 0px;
 	clear: both;
 }
 
@@ -242,7 +242,7 @@ table {
 	margin: 25px 0;
 	font-size: 0.9em;
 	overflow: auto;
-	padding-bottom: 150px;
+	padding-bottom: 0px;
 }
 
 .table {
@@ -404,7 +404,7 @@ table {
 	display: flex;
 	flex-direction: column;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
-	margin-bottom: 150px;
+	margin-bottom: 50px;
 }
 
 .form p {
