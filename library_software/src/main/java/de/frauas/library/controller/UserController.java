@@ -95,7 +95,6 @@ public class UserController {
 	public String deleteUser(@Param("username") String username, Model model) {
 
 			userDAO.delete(userDAO.get(username).get());
-			System.out.println(username);
 			model.addAttribute("users", userDAO.getAll());
 			model.addAttribute("successMessage", "Deleting user was successful.");
 			return "/users";
