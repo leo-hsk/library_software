@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<script type="text/javascript" src="../../js/general.js"></script>
 <title>[[${pageTitle}]]</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
@@ -50,7 +51,7 @@
 				<td class="td-contains-btn">
 					<form th:method="DELETE">
 						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
-						<input class="table-delete-btn" type="submit" value="delete">
+						<input class="table-delete-btn" type="submit" value="delete" onclick="return deleteBookConfirm();">
 					</form>
 				</td>
 			</tr>

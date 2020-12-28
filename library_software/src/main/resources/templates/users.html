@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<script type="text/javascript" src="../../js/general.js"></script>
 <title>List of Users</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
@@ -31,16 +32,16 @@
 				<td class="td-contains-btn">
 					<form th:method="DELETE">
 						<input type="hidden" name ="username" th:value="${user.username}">
-						<input class="table-delete-btn" type="submit" value="delete">
+						<input class="table-delete-btn" type="submit" value="delete" onclick="return deleteUserConfirmAdmin();">
 					</form>
 				</td>
 			</tr>
 			</tbody>
 		</table>
 		<!-- Check if errorMessage is not null and not empty -->
-		<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>
+		<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic; text-align: center;">...</div>
 		<!-- Tell user that he successfully altered the account settings -->
-		<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic;">...</div>
+		<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic; text-align: center;">...</div>
 	</div>
 	<footer th:replace="fragments/footer.html :: footer"> </footer>
 </body>

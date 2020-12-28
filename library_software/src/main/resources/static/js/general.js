@@ -1,8 +1,15 @@
 // Delete alerts
 
 function deleteUserConfirm() {
-	console.log("test");
 	return confirm('Do you really want to delete your Account?');
+}
+
+function deleteBookConfirm() {
+	return confirm('Do you really want to delete the book?');
+}
+
+function deleteUserConfirmAdmin() {
+	return confirm('Do you really want to delete this user?');
 }
 
 
