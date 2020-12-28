@@ -47,7 +47,7 @@ public class UserController {
 		String username = ((UserDetails)principal).getUsername();
 		User user = userDAO.get(username).get();
 		
-		UserForm userForm = new UserForm(user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole().getName().toUpperCase());
+		UserForm userForm = new UserForm(user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole().getName().toUpperCase());
 		model.addAttribute("userForm", userForm);
 		return "account";
 	}
@@ -72,9 +72,23 @@ public class UserController {
 
 	@DeleteMapping(value = {"/account"})
 	public String deleteUser(Model model, @ModelAttribute("userForm") UserForm userForm) {
-//			Überlegen, an welcher Stelle user gelöscht werden soll.
-//			userDAO.delete(userDAO.get(userForm.getUsername()).get());
-			return "/";
+
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = ((UserDetails)principal).getUsername();
+
+//		Keep role after reloading page.
+		User user = userDAO.get(username).get();
+		
+		userForm.setRole(user.getRole().getName().toUpperCase());
+		
+		if (encoder.matches(userForm.getPassword(), userDAO.get(username).get().getPassword())) {
+			userDAO.delete(user);
+			return "redirect:/logout";
+		} else {
+			model.addAttribute("errorMessage", "Please enter your password to confirm deletion.");
+			return "account";
+		}
 	}
 	
 	@DeleteMapping(value = {"/users"})
@@ -89,19 +103,19 @@ public class UserController {
 
 	@PostMapping(value = "/register")
 	public String addUser(Model model, @ModelAttribute("userForm") UserForm userForm) {
-		
+
 		String username = userForm.getUsername();
 		String password = userForm.getPassword();
 		String firstName = userForm.getFirstName();
 		String lastName = userForm.getLastName();
 		String email = userForm.getEmail();
 		
-		if(userDAO.findByEmail(email).get() != null) {
+		if(userDAO.get(username).isPresent()) {
 			model.addAttribute("errorMessage", "Username already exists.");
 			return "register";
 		}
 		
-		if(userDAO.findByEmail(email).get() != null) {
+		if(userDAO.findByEmail(email).isPresent()) {
 			model.addAttribute("errorMessage", "There is already an account with the given email");
 			return "register";
 		}
