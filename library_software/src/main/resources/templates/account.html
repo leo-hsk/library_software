@@ -12,7 +12,7 @@
 	<div class="main-content">
 	<div class="form">
 	<h2>My Account Settings:</h2>
-	<p>You're currently logged in as a [<span th:text="${userForm.role}"></span>].</p>
+	<p>You're currently logged in as an [<span th:text="${userForm.role}"></span>].</p>
 	<form class="input-fields" id="registerUser" th:action="@{/account}" th:object="${userForm}" th:method="PUT">
 		<span>Username:</span> <input class="input" type="text" th:field="*{username}" required/>
 		<span>Password:</span> <input class="input" type="password" th:field="*{password}" id="password" onblur="copyPassword();" required/>
@@ -30,12 +30,10 @@
 	<input type="hidden" th:field="*{email}" id="e"/>
 	<button class="form-delete-btn" type="submit" value="Delete" onclick="return deleteUserConfirm();">Delete</button>
 	</form>
-	<br />
-	<!-- Check if errorMessage is not null and not empty -->
-	<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic; text-align: center">...</div>
-	<!-- Tell user that he successfully altered the account settings -->
-	<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic; text-align: center">...</div>
-	</div>
+	<br>
+		<div th:replace="fragments/fragments.html :: errormessage">...</div>
+		<div th:replace="fragments/fragments.html :: successmessage">...</div>
+		</div>
 	</div>
 	<footer th:replace="fragments/footer.html :: footer"> </footer>
 </body>

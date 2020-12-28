@@ -11,6 +11,8 @@ html, body {
 }
 
 h2 {
+	font-size: 26px;
+	margin-top: 30px;
 	text-align: center;
 	text-transform: uppercase;
 }
@@ -133,6 +135,7 @@ button:focus {
 	border: none;
 	color: white;
 	width: 100%;
+	padding-left: 10px;
 }
 
 input:focus{
@@ -267,9 +270,9 @@ table {
 }
 
 .table td, .table th {
-	padding: 12px 15px;
+	padding: 5px 15px;
 	text-align: center;
-	font-size: 16px;
+	font-size: 18px;
 
 }
 
@@ -308,11 +311,6 @@ table {
 		background: #cc0000;
 	}
 
-.table th {
-	/*color: #333;
-	background-color: #ffaf00; */
-}
-
 .table tbody tr:nth-child(even) {
 	background-color: #f3f3f3; /* light grey lines */
 	border-bottom: 1px solid #dbdbdb;
@@ -320,7 +318,12 @@ table {
 	padding-bottom: 15px;
 }
 
+
 @media(max-width: 1000px) {
+	.table {
+		margin: 25px 0px 0px 0px;
+	}
+
 	.table thead {
 		display: none;
 	}
@@ -330,8 +333,13 @@ table {
 		width: 100%;
 	}
 	.table tr {
+		padding-top: 15px;
 		margin-bottom: 15px;
 	}
+
+	.table tbody tr:first-child {
+	border-top: 2px solid #ffaf00;
+}
 	.table td {
 		text-align: right;
 		padding-left: 40%;
@@ -418,12 +426,14 @@ table {
 }
 
 .form p {
-	margin-top: -10px;
+	margin-bottom: 15px;
 	color: white;
 	text-align: center;
 }
 
 .form h2 {
+	margin-top: 0px;
+	margin-bottom: 10px;
 	text-align: center;
 	color: white;
 }
@@ -490,5 +500,11 @@ input {
 	background-color: #cc0000;
 	color: white;
 	transition: 0.4s;
+}
+
+/* Messages */
+
+.message {
+	padding-bottom: 20px;
 }
 

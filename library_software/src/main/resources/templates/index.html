@@ -10,6 +10,8 @@
 	<header th:insert="fragments/header.html :: header"> </header>
 	<div class="main-content">
 	<h2>Welcome to Library Software</h2>
+	<div th:replace="fragments/fragments.html :: errormessage">...</div>
+	<div th:replace="fragments/fragments.html :: successmessage">...</div>
 	</div>
 	
 	<footer th:replace="fragments/footer.html :: footer"> </footer>

@@ -57,8 +57,8 @@
 			</tr>
 			</tbody>
 		</table>
-		<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic; text-align: center">...</div>
-		<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic; text-align: center">...</div>
+		<div th:replace="fragments/fragments.html :: errormessage">...</div>
+		<div th:replace="fragments/fragments.html :: successmessage">...</div>
 	</div>
 	<footer th:replace="fragments/footer.html :: footer"> </footer>
 </body>

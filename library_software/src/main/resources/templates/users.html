@@ -38,10 +38,8 @@
 			</tr>
 			</tbody>
 		</table>
-		<!-- Check if errorMessage is not null and not empty -->
-		<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic; text-align: center;">...</div>
-		<!-- Tell user that he successfully altered the account settings -->
-		<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic; text-align: center;">...</div>
+		<div th:replace="fragments/fragments.html :: errormessage">...</div>
+		<div th:replace="fragments/fragments.html :: successmessage">...</div>
 	</div>
 	<footer th:replace="fragments/footer.html :: footer"> </footer>
 </body>
