@@ -74,6 +74,7 @@ public class BookDataController {
 		Book book = new Book(bookDataDAO.get(bookForm.getIsbn13()).get());
 		bookDAO.save(book);
 		
+		model.addAttribute("successMessage", "Adding book was successful.");
 		return "addBook";
 		}
 		
@@ -94,7 +95,7 @@ public class BookDataController {
 		model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' is deleted.");
 		
 //		Change return page
-		return "fragments";
+		return "searchResult";
 	}
 
 }

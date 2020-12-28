@@ -22,6 +22,7 @@
 	<br />
 	<!-- Check if errorMessage is not null and not empty -->
 	<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic; text-align: center">...</div>
+	<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic; text-align: center;">...</div>
 	</div>
 	</div>
 	<footer th:replace="fragments/footer.html :: footer"> </footer>
