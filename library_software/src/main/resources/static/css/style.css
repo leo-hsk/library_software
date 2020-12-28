@@ -8,6 +8,10 @@ html, body {
 	height: 100%;
 }
 
+.main-content {
+	min-height: 87%;
+}
+
 .navbar {
 	display: flex;
 	justify-content: space-between;
@@ -102,32 +106,38 @@ html, body {
 .search-box {
 	padding-right: 10px;
 	align-items: center;
+	margin: auto auto;
 }
 
 .search-form {
 	line-height: 50px;
 	vertical-align: middle;
+	display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .search-txt{
 	background: #444;
 	border-radius: 4px;
-	border-style: none;
-}
-
-input::placeholder{
-  color: #777;
+	border: none;
+	color: white;
+	width: 100%;
 }
 
 input:focus{
-  color: white;
+  outline: none;
+
 }
 
 .search-btn {
-	background: none;
+	background: #444;
 	color: white;
-	border: 1px solid white;
+	padding: 5px;
 	border-radius: 4px;
+	border: none;
+	background: transparent;
+	padding: 10px;
 }
 
 .search-btn:hover {
@@ -135,8 +145,13 @@ input:focus{
 	background: white;
 }
 
+.no-hover {
+	display: flex;
+}
+
 .no-hover:hover {
 	background: #333 !important;
+	text-align: center;
 }
 
 
@@ -288,6 +303,93 @@ table {
 	}
 }
 
-.main-content {
-	min-height: 87%;
+
+/* Form */
+
+
+.form {
+	max-width: 350px;
+	margin: 100px auto;
+	background: rgba(0, 0, 0, 0.8);
+	padding: 30px;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+	margin-bottom: 150px;
 }
+
+.form p {
+	margin-top: -10px;
+	color: white;
+	text-align: center;
+}
+
+.form h2 {
+	text-align: center;
+	color: white;
+}
+
+.input-fields {
+	display: flex;
+	flex-direction: column;
+}
+
+.input-fields span{
+	margin-bottom: -15px;
+	color: rgba(255, 255, 255, 0.6);
+}
+
+
+input {
+
+}
+
+.input {
+	width: 100%;
+	margin: 10px 0;
+	background: transparent;
+	border: 0;
+	border-bottom: 2px solid white;
+	padding: 10px;
+	color: white;
+}
+
+.form-btn {
+	margin-top: 30px;
+	background: white;
+	text-align: center;
+	padding: 15px;
+	border-radius: 5px;
+	color: #333;
+	cursor: pointer;
+	text-transform: uppercase;
+	font-size: 18px;
+	border: none;
+}
+
+.form-btn:hover {
+	background-color: #ffaf00;
+	color: white;
+	transition: 0.4s;
+}
+
+.form-delete-btn {
+	margin-top: 30px;
+	background: white;
+	text-align: center;
+	padding: 15px;
+	border-radius: 5px;
+	color: #333;
+	cursor: pointer;
+	text-transform: uppercase;
+	font-size: 18px;
+	border: none;
+}
+
+.form-delete-btn:hover {
+	background-color: #cc0000;
+	color: white;
+	transition: 0.4s;
+}
+

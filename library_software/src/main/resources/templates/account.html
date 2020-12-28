@@ -8,27 +8,26 @@
 </head>
 <body>
 	<header th:insert="fragments/header.html :: header"> </header>
+	<div class="main-content">
+	<div class="form">
 	<h2>My Account Settings:</h2>
 	<p>You're currently logged in as a [<span th:text="${userForm.role}"></span>].</p>
-	<form th:action="@{/account}" th:object="${userForm}" th:method="PUT">
-		Username: <input type="text" th:field="*{username}" />
-		<br/>
-		Password: <input type="password" th:field="*{password}" />
-		<br/>
-		First Name: <input type="text" th:field="*{firstName}" />
-		<br/>
-		Last Name: <input type="text" th:field="*{lastName}" />
-		<br/>
-		Email: <input type="text" th:field="*{email}" />
-		<br/>
-		<input type="submit" value="Edit" />
+	<form class="input-fields" th:action="@{/account}" th:object="${userForm}" th:method="PUT">
+		<span>Username:</span> <input class="input" type="text" th:field="*{username}" />
+		<span>Password:</span> <input class="input" type="password" th:field="*{password}" />
+		<span>First Name:</span> <input class="input" type="text" th:field="*{firstName}" />
+		<span>Last Name:</span> <input class="input" type="text" th:field="*{lastName}" />
+		<span>Email:</span> <input class="input" type="text" th:field="*{email}" />
+		<button class="form-btn" type="submit" value="Update">Update</button>
+		<button class="form-delete-btn" type="submit" value="Delete">Delete</button>
 	</form>
 	<br />
 	<!-- Check if errorMessage is not null and not empty -->
-	<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic;">...</div>
+	<div th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic; text-align: center">...</div>
 	<!-- Tell user that he successfully altered the account settings -->
-	<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic;">...</div>
-	
+	<div th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic; text-align: center">...</div>
+	</div>
+	</div>
 	<footer th:insert="fragments/footer.html :: footer"> </footer>
 </body>
 </html>
