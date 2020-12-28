@@ -1,5 +1,7 @@
 * {
 	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 html, body {
@@ -184,6 +186,7 @@ footer {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	margin-top: 1rem;
 }
 
 .footer-content h3 {
@@ -200,7 +203,11 @@ footer {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: 1rem 0 3 rem 0;
+	margin: 2rem 0 3rem 0;
+}
+
+.footer-links ul {
+	padding-inline-start: 0px;
 }
 
 .footer-links li {
