@@ -1,21 +1,46 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>Home</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body>
 	<header th:insert="fragments/header.html :: header"> </header>
 	<div class="main-content">
-	<div sec:authorize="isAuthenticated()">
-		<h2>Welcome <span sec:authentication="name">Username</span></h2>
+		<div sec:authorize="isAuthenticated()">
+			<h2>
+				Welcome <span sec:authentication="name">Username</span>
+			</h2>
+		</div>
+		<div class="container">
+		<div class="welcome-container">
+			<h2>Nothing is pleasanter than exploring a library</h2>
+			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+				diam nonumy eirmod tempor invidunt ut labore et dolore magna
+				aliquyam erat, sed diam voluptua. </p>
+				<div class="welcome-btn-container" >
+				<form th:action="@{/login}" th:method="GET">
+					<button class="welcome-btn">Login</button>
+				</form>
+				<form th:action="@{/register}" th:method="GET">
+					<button class="welcome-btn">Register</button>
+				</form>
+				</div>
+		</div>
+		<div class="img">
+			<img src="img/book_lover.svg">
+		</div>
+		</div>
+
+
+		<div th:replace="fragments/fragments.html :: errormessage">...</div>
+		<div th:replace="fragments/fragments.html :: successmessage">...</div>
 	</div>
-	<div th:replace="fragments/fragments.html :: errormessage">...</div>
-	<div th:replace="fragments/fragments.html :: successmessage">...</div>
-	</div>
-	
+
 	<footer th:replace="fragments/footer.html :: footer"> </footer>
 </body>
 </html>
