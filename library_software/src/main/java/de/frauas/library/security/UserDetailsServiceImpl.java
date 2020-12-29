@@ -1,10 +1,11 @@
 package de.frauas.library.security;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import de.frauas.library.model.User;
 import de.frauas.library.repository.UserRepository;
@@ -21,13 +22,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private UserRepository UserRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = UserRepository.findByUsername(username).get();
-		if(user == null) {
-			throw new UsernameNotFoundException("Could not find User '" + username + "'.");
+	public UserDetails loadUserByUsername(String username) {
+		Optional<User> optUser = UserRepository.findByUsername(username);
+		if(optUser.isPresent()) {
+			User user = optUser.get();
+			return user;
 		}
-		
-		return user;
+//		Handling if there is no user with the given username.
+		User noUser = new User();
+		noUser.setEnabled(false);
+		return noUser;
 	}
 
 }
