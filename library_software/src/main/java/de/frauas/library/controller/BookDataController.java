@@ -19,14 +19,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.springframework.web.util.UriComponentsBuilder;
-
 import de.frauas.library.data.BookDAO;
 import de.frauas.library.data.BookDataDAO;
 import de.frauas.library.form.BookForm;
 import de.frauas.library.model.Book;
 import de.frauas.library.model.BookData;
 
+/**
+ * Controller to handle requests related to bookData
+ * @author Leonard
+ *
+ */
 @Controller
 public class BookDataController {
 	
@@ -35,18 +38,6 @@ public class BookDataController {
 	
 	@Autowired
 	BookDAO bookDAO;
-	
-	
-	@GetMapping(value = "/bookData/{isbn13}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Optional<BookData>> getBookData(@PathVariable("isbn13") long isbn13) {
-
-		if (bookDataDAO.get(isbn13).isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<Optional<BookData>>(bookDataDAO.get(isbn13), HttpStatus.OK);
-		}
-	}
 	
 	@PostMapping(value = "/addBook")
 	public String addBookData(Model model, @ModelAttribute("bookForm") BookForm bookForm) {
@@ -96,6 +87,18 @@ public class BookDataController {
 		model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' deleted.");
 		
 		return "searchResult";
+	}
+	
+//	Not used
+	@GetMapping(value = "/bookData/{isbn13}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<Optional<BookData>> getBookData(@PathVariable("isbn13") long isbn13) {
+
+		if (bookDataDAO.get(isbn13).isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Optional<BookData>>(bookDataDAO.get(isbn13), HttpStatus.OK);
+		}
 	}
 
 }

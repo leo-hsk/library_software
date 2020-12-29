@@ -9,7 +9,7 @@ import de.frauas.library.form.BookForm;
 import de.frauas.library.repository.BookRepository;
 
 /**
- * This class is used to render web content related to books
+ * This controller is used to render web content related to books.
  * @author Leonard
  *
  */
@@ -26,10 +26,9 @@ public class BookViewController {
 		return "addBook";
 	}
 	
-//	Temporary method
+//	Not used method
 	@GetMapping(value = {"/fragments"})
 	public String showSearchPage(Model model) {
-
 		return "fragments";
 	}
 

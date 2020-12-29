@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,6 +35,11 @@ import de.frauas.library.form.UserForm;
 import de.frauas.library.model.User;
 import de.frauas.library.repository.RoleRepository;
 
+/**
+ * Controller to handle requests related to users.
+ * @author Leonard
+ *
+ */
 @Controller
 public class UserController {
 
@@ -50,77 +54,73 @@ public class UserController {
 	
 	@GetMapping("/login")
 	public String showLoginPage(HttpServletRequest request, Model model, @ModelAttribute("del") String del) {
+		
+//		Check if user is not authenticated.
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		System.out.println(del);
-		
 		if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
 			HttpSession session = request.getSession(false);
 			if(session != null) {
 				AuthenticationException ex = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 				if(ex != null) {
+//					Print message why login was not successful. If there is a message.
 					model.addAttribute("errorMessage", ex.getMessage());
 				}
 			}
 			return "login";
 		}
 		
-		if(!del.isBlank()) {
+//		Check if user got deleted by checking ModelAttribute.
+		if(!del.isBlank()) {		
+//			Delete authentication and print message that account is deleted.
 			SecurityContextHolder.getContext().setAuthentication(null);
 			model.addAttribute("success", del);
 			return "login";
-			}
-		
+			}	
+//		Login successful.
 		return "redirect:/";
 	}
 	
-	@GetMapping(value = {"/register"})
+	@GetMapping(value = "/register")
 	public String showRegistrationPage(Model model) {
 		UserForm userForm = new UserForm();
 		model.addAttribute("userForm", userForm);
 		return "register";
 	}
 	
-	@GetMapping(value = {"/account"})
+	@GetMapping(value = "/account")
 	public String showAccountPage(Model model) {
+		
+//		Get the user who made the request.
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails)principal).getUsername();
 		User user = userDAO.get(username).get();
 		
+//		Load user information into thymeleaf.
 		UserForm userForm = new UserForm(user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole().getName().toUpperCase());
 		model.addAttribute("userForm", userForm);
 		return "account";
 	}
 
 	@GetMapping(value = "/users")
-	public String getUsers(Model model) {
+	public String ShowAllUsersPage(Model model) {
 		model.addAttribute("users", userDAO.getAll());
-		
 		return "users";
 	}
 
-	@GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Optional<User>> getUser(@PathVariable("id") long id) {
-
-		if (userDAO.get(id).isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<Optional<User>>(userDAO.get(id), HttpStatus.OK);
-		}
-	}
-
-	@DeleteMapping(value = {"/account"})
+	@DeleteMapping(value = "/account")
 	public String deleteUser(Model model, @ModelAttribute("userForm") UserForm userForm, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+//		Get user who made request.
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails)principal).getUsername();
 
-//		Keep role after reloading page.
+//		Safe user role for thymeleaf.
 		User user = userDAO.get(username).get();
 		userForm.setRole(user.getRole().getName().toUpperCase());
 		
+//		Check if entered password is correct.
 		if (encoder.matches(userForm.getPassword(), userDAO.get(username).get().getPassword())) {
 			if(bookDAO.findByUser(userDAO.get(username).get().getId()).isEmpty()) {
 				userDAO.delete(user);
@@ -136,8 +136,9 @@ public class UserController {
 		}
 	}
 	
-	@DeleteMapping(value = {"/users"})
+	@DeleteMapping(value = "/users")
 	public String deleteUser(@Param("username") String username, Model model) {
+//		Check if user has no more lent books.
 		if(bookDAO.findByUser(userDAO.get(username).get().getId()).isEmpty()) {
 			userDAO.delete(userDAO.get(username).get());
 			model.addAttribute("users", userDAO.getAll());
@@ -199,13 +200,16 @@ public class UserController {
 		params[3] = userForm.getEmail();
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+//		Get user who made request
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails)principal).getUsername();
 
-//		Keep role after reloading page.
+//		Safe user role for thymeleaf.
 		User user = userDAO.get(username).get();
 		userForm.setRole(user.getRole().getName().toUpperCase());
 		
+//		Check if changed username already exists.
 		if(userDAO.get(userForm.getUsername()).isPresent()) {
 			if(userDAO.get(userForm.getUsername()).get().getUsername() != user.getUsername()) {
 				model.addAttribute("errorMessage", "Username already exists.");
@@ -213,6 +217,7 @@ public class UserController {
 			}
 		}
 		
+//		Check if changed email already exists.
 		if(userDAO.findByEmail(userForm.getEmail()).isPresent()) {
 			if(userDAO.findByEmail(userForm.getEmail()).get().getEmail() != user.getEmail()) {
 				model.addAttribute("errorMessage", "There is already an account with the given email.");
@@ -220,6 +225,7 @@ public class UserController {
 			}
 		}
 		
+//		Check if entered password is correct.
 		if (encoder.matches(userForm.getPassword(), userDAO.get(username).get().getPassword())) {
 			userDAO.update(userDAO.get(username).get(), params);
 			model.addAttribute("successMessage", "Updating account was successful.");
@@ -227,6 +233,18 @@ public class UserController {
 		} else {
 			model.addAttribute("errorMessage", "Please enter your password to verify changes.");
 			return "account";
+		}
+	}
+	
+	
+//	Not used anymore
+	@GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<Optional<User>> getUser(@PathVariable("id") long id) {
+		if (userDAO.get(id).isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Optional<User>>(userDAO.get(id), HttpStatus.OK);
 		}
 	}
 }

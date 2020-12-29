@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +25,11 @@ import de.frauas.library.data.BookDAO;
 import de.frauas.library.data.UserDAO;
 import de.frauas.library.model.Book;
 
+/**
+ * Controller to handle requests related to books.
+ * @author Leonard
+ *
+ */
 @Controller
 public class BookController {
 	
@@ -35,47 +39,9 @@ public class BookController {
 	@Autowired
 	UserDAO userDAO;
 	
-	
 	@GetMapping(value = {"/", "/index"})
 	public String welcome() {
 		return "index";
-	}
-	
-	
-	@GetMapping(value = "/books",
-				produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<Book>> getBooks() {
-		if (bookDAO.getAll().isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-		else {
-			return new ResponseEntity<>(bookDAO.getAll(), HttpStatus.OK);
-		}
-	}
-	
-	@GetMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Optional<Book>> getBook(@PathVariable("id") long id) {
-
-		if (bookDAO.get(id).isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<Optional<Book>>(bookDAO.get(id), HttpStatus.OK);
-		}
-	}
-	
-	
-	@DeleteMapping(value = "/books/{id}")
-	@ResponseBody
-	public ResponseEntity<Object> deleteBook(@PathVariable("id") long id, UriComponentsBuilder builder) {	
-		if(bookDAO.get(id).isEmpty()) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-		}
-		else {
-			bookDAO.delete(bookDAO.get(id).get());
-			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
-		}
 	}
 	
 	@GetMapping(value = "/search")
@@ -97,6 +63,7 @@ public class BookController {
 	@PatchMapping(value = "/search")
 	public String lendBook(@Param("isbn13") long isbn13, @Param("keyword2") String keyword, Model model) {
 		
+//		Get user who made request.
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails)principal).getUsername();
 		
@@ -113,11 +80,11 @@ public class BookController {
 			model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' lent.");
 		} else {
 			param = null;
-			
 			model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' returned.");
 		}	
 		bookDAO.edit(book, param);
 		
+//		Return the same search result.
 		if(keyword.isBlank()) {
 			model.addAttribute("keyword", "All books");
 			model.addAttribute("searchResult", bookDAO.getAll());
@@ -128,7 +95,6 @@ public class BookController {
 		return "searchResult";
 	}
 	
-	
 	@GetMapping(value = "books")
 	public String listBooks(Model model) {
 		model.addAttribute("books", bookDAO.getAll());
@@ -138,6 +104,7 @@ public class BookController {
 	@GetMapping(value = "/myBooks")
 	public String listBooksFromUser(Model model) {
 		
+//		Get user who made request.
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails)principal).getUsername();
 		
@@ -147,4 +114,40 @@ public class BookController {
 	
 	
 	
+	
+//	Not used
+	@DeleteMapping(value = "/books/{id}")
+	@ResponseBody
+	public ResponseEntity<Object> deleteBook(@PathVariable("id") long id, UriComponentsBuilder builder) {	
+		if(bookDAO.get(id).isEmpty()) {
+			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+		}
+		else {
+			bookDAO.delete(bookDAO.get(id).get());
+			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+		}
+	}
+
+//	Not used
+	@GetMapping(value = "/books", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<Book>> getBooks() {
+		if (bookDAO.getAll().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<>(bookDAO.getAll(), HttpStatus.OK);
+		}
+	}
+
+//	Not used
+	@GetMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<Optional<Book>> getBook(@PathVariable("id") long id) {
+
+		if (bookDAO.get(id).isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Optional<Book>>(bookDAO.get(id), HttpStatus.OK);
+		}
+	}
 }
