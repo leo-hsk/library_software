@@ -131,7 +131,7 @@ public class UserController {
 			return "account";
 			
 		} else {
-			model.addAttribute("errorMessage", "Please enter your password to confirm deletion.");
+			model.addAttribute("errorMessage", "Please enter your correct password to confirm deletion.");
 			return "account";
 		}
 	}
@@ -231,7 +231,7 @@ public class UserController {
 			model.addAttribute("successMessage", "Updating account was successful.");
 			return "account";
 		} else {
-			model.addAttribute("errorMessage", "Please enter your password to verify changes.");
+			model.addAttribute("errorMessage", "Please enter your correct password to verify changes.");
 			return "account";
 		}
 	}
