@@ -13,9 +13,14 @@ import de.frauas.library.repository.BookDataRepository;
 import de.frauas.library.repository.BookRepository;
 import de.frauas.library.repository.UserRepository;
 
+/**
+ * Implementation of DAO Interface.
+ * Defines CRUD methods to retrieve book data.
+ * @author Leonard
+ *
+ */
 @Repository
 public class BookDAO implements DAO<Book>{
-	
 	
 	@Autowired
 	BookRepository bookRepository;
@@ -32,7 +37,6 @@ public class BookDAO implements DAO<Book>{
 		return bookList;
 	}
 
-
 	@Override
 	public Optional<Book> get(long id) {
 		try {
@@ -44,12 +48,10 @@ public class BookDAO implements DAO<Book>{
 		}	
 	}
 
-
 	@Override
 	public void save(Book book) {
 		bookRepository.save(book);
 	}
-
 
 	@Override
 	public void update(Book book, String[] params) {
@@ -58,12 +60,10 @@ public class BookDAO implements DAO<Book>{
 		bookRepository.save(book);
 	}
 
-
 	@Override
 	public void delete(Book book) {
 		bookRepository.delete(book);
 	}
-
 
 	@Override
 	public void edit(Book book, String[] param) {
@@ -74,11 +74,10 @@ public class BookDAO implements DAO<Book>{
 			book.setUser(null);
 		}
 		else {
-		book.setLent(Boolean.valueOf(param[0]));
-		book.setUser(userRepository.findByUsername(param[1]).get());
-		book.setLendingDate(Date.valueOf(param[2]));
+			book.setLent(Boolean.valueOf(param[0]));
+			book.setUser(userRepository.findByUsername(param[1]).get());
+			book.setLendingDate(Date.valueOf(param[2]));
 		}
-		
 		bookRepository.save(book);
 	}
 	
@@ -93,6 +92,4 @@ public class BookDAO implements DAO<Book>{
 	public List<Book> findByUser(long id) {
 		return bookRepository.findByUser(id);
 	}
-
-
 }

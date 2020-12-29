@@ -12,6 +12,12 @@ import de.frauas.library.model.User;
 import de.frauas.library.repository.RoleRepository;
 import de.frauas.library.repository.UserRepository;
 
+/**
+ * Implementation of DAO Interface.
+ * Defines CRUD methods to retrieve user data.
+ * @author Leonard
+ *
+ */
 @Repository
 public class UserDAO implements DAO<User>{
 	
@@ -51,8 +57,6 @@ public class UserDAO implements DAO<User>{
 			return Optional.empty();
 		}	
 	}
-	
-	
 
 	@Override
 	public List<User> getAll() {
@@ -64,32 +68,26 @@ public class UserDAO implements DAO<User>{
 	public void save(User user) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(user.getPassword()));
-		
 		userRepository.save(user);
 	}
 
 	@Override
 	public void update(User user, String[] params) {
-		
 		user.setUsername(Objects.requireNonNull(params[0], "Username cannot be null!"));
 		user.setFirstName(Objects.requireNonNull(params[1], "First name cannot be null!"));
 		user.setLastName(Objects.requireNonNull(params[2], "Last name cannot be null!"));
 		user.setEmail(Objects.requireNonNull(params[3], "Email cannot be null!"));
-		
 		userRepository.save(user);
 	}
 
 	@Override
 	public void delete(User user) {
-		userRepository.delete(user);
-		
+		userRepository.delete(user);	
 	}
 
-//	Not used at the moment
+//	Not used 
 	@Override
 	public void edit(User user, String[] params) {
 		// TODO Auto-generated method stub
-		
 	}
-
 }

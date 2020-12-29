@@ -11,6 +11,12 @@ import org.springframework.stereotype.Repository;
 import de.frauas.library.model.BookData;
 import de.frauas.library.repository.BookDataRepository;
 
+/**
+ * Implementation of DAO Interface.
+ * Defines CRUD methods to retrieve book information.
+ * @author Leonard
+ *
+ */
 @Repository
 public class BookDataDAO implements DAO<BookData>{
 	
