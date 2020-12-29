@@ -369,6 +369,7 @@ table {
 
 	.table .td-contains-btn form{
 		text-align: center;
+		margin: auto;
 	}
 
 	.table-btn {
