@@ -172,16 +172,14 @@ input:focus{
 /* Footer */
 
 footer {
-	position: relative;
+	position: absolute;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	background: #333;
-	height: 200px;
 	width: 100%;
-	padding-top: 20px;
+	height: 180px;
 	color: white;
-	margin-top: 0px;
 	clear: both;
 }
 
@@ -190,7 +188,7 @@ footer {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	margin-top: 1rem;
+	padding-top: 40px;
 }
 
 .footer-content h3 {
@@ -243,6 +241,12 @@ footer {
 	opacity: .4;
 	font-weight: 200;
 	white-space: nowrap;
+}
+
+@media(max-width: 900px) {
+	footer {
+		position: relative;
+	}
 }
 
 
@@ -426,7 +430,7 @@ table {
 
 .form {
 	max-width: 350px;
-	margin: 100px auto;
+	margin: 70px auto;
 	background: rgba(0, 0, 0, 0.8);
 	padding: 30px;
 	border-radius: 5px;
