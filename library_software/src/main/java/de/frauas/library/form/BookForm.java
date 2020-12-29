@@ -2,7 +2,11 @@ package de.frauas.library.form;
 
 import java.sql.Date;
 
-
+/**
+ * POJO that serves as a container to temporarily store user input.
+ * @author Leonard
+ *
+ */
 public class BookForm {
 	
 	private String title;
@@ -45,7 +49,4 @@ public class BookForm {
 	public void setIsbn13(long isbn13) {
 		this.isbn13 = isbn13;
 	}
-	
-	
-
 }

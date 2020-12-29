@@ -1,5 +1,10 @@
 package de.frauas.library.form;
 
+/**
+ * POJO that serves as a container to temporarily store user input.
+ * @author Leonard
+ *
+ */
 public class UserForm {
 	
 	private String username;
@@ -14,8 +19,7 @@ public class UserForm {
 	
 	private String role;
 
-	public UserForm() {
-		
+	public UserForm() {	
 	}
 	
 	public UserForm(String username, String firstName, String lastName, String email, String role) {
@@ -73,6 +77,4 @@ public class UserForm {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
-
 }
