@@ -31,9 +31,7 @@
 				diam nonumy eirmod tempor invidunt ut labore et dolore magna
 				aliquyam erat, sed diam voluptua. </p>
 				<div class="welcome-btn-container" >
-				<form action="/login" th:method="GET">
-					<button class="welcome-btn">Login</button>
-				</form>
+					<button class="welcome-btn" onclick="location.href='/login'">Login</button>
 				<form th:action="@{/register}" th:method="GET">
 					<button class="welcome-btn">Register</button>
 				</form>

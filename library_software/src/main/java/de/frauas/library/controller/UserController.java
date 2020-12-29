@@ -2,23 +2,33 @@ package de.frauas.library.controller;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.frauas.library.data.BookDAO;
 import de.frauas.library.data.UserDAO;
@@ -37,6 +47,32 @@ public class UserController {
 	
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@GetMapping("/login")
+	public String showLoginPage(HttpServletRequest request, Model model, @ModelAttribute("del") String del) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		System.out.println(del);
+		
+		if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+			HttpSession session = request.getSession(false);
+			if(session != null) {
+				AuthenticationException ex = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+				if(ex != null) {
+					model.addAttribute("errorMessage", ex.getMessage());
+				}
+			}
+			return "login";
+		}
+		
+		if(!del.isBlank()) {
+			SecurityContextHolder.getContext().setAuthentication(null);
+			model.addAttribute("success", del);
+			return "login";
+			}
+		
+		return "redirect:/";
+	}
 	
 	@GetMapping(value = {"/register"})
 	public String showRegistrationPage(Model model) {
@@ -75,7 +111,7 @@ public class UserController {
 	}
 
 	@DeleteMapping(value = {"/account"})
-	public String deleteUser(Model model, @ModelAttribute("userForm") UserForm userForm) {
+	public String deleteUser(Model model, @ModelAttribute("userForm") UserForm userForm, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -88,7 +124,8 @@ public class UserController {
 		if (encoder.matches(userForm.getPassword(), userDAO.get(username).get().getPassword())) {
 			if(bookDAO.findByUser(userDAO.get(username).get().getId()).isEmpty()) {
 				userDAO.delete(user);
-				return "redirect:/logout";
+				redirectAttrs.addFlashAttribute("del", "Your account has been deleted.");
+				return "redirect:/login?logout";
 			}
 			model.addAttribute("errorMessage", "You need to return books before you can delete your account.");
 			return "account";

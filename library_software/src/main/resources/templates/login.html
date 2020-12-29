@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<title>Login</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+<script type="text/javascript" src="../../js/general.js"></script>
+</head>
+<body>
+	<header th:insert="fragments/header.html :: header"> </header>
+	<div class="main-content">
+	<div class="form">
+	<h2>Login:</h2>
+	<form class="input-fields" th:action="@{/login}" th:method="POST">
+		<input class="input" type="text" name="username" placeholder="Enter Username" required autofocus/>
+		<input class="input" type="password" name="password" placeholder="Enter Password" required/>
+		<button class="form-btn" type="submit" value="login">Login</button>
+		
+	</form>
+	<br>
+	<div th:if="${param.error}">
+		<div th:replace="fragments/fragments.html :: errormessage">...</div>
+	</div>
+	<div th:if="${param.logout}">
+		<div style="color: green; font-style: italic; text-align: center">You have been logged out.</div>
+	</div>
+	<div th:if="${success}">
+		<div style="color: green; font-style: italic; text-align: center">Your account has been deleted.</div>
+	</div>
+	</div>
+	</div>
+	<footer th:replace="fragments/footer.html :: footer"> </footer>
+</body>
+</html>
