@@ -11,6 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * Java configuration for Spring Security without the use of XML.
+ * @author Leonard
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
@@ -63,9 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.formLogin()
 		.loginPage("/login").permitAll()
 		.and()
-		.logout().permitAll()
-		.and()
-		.exceptionHandling().accessDeniedPage("/403");
+		.logout().permitAll();
 		
 		http.csrf().disable();
 		http.headers().frameOptions().disable();

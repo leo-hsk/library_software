@@ -1,6 +1,7 @@
 package de.frauas.library.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,6 +9,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import de.frauas.library.model.User;
 import de.frauas.library.repository.UserRepository;
 
+/**
+ * UserDetailsService implementation to retrieve user-related data.
+ * It is used by the DaoAuthenticationProvider to load details about the user during authentication.
+ * @author Leonard
+ *
+ */
 public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Autowired
