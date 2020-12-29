@@ -12,6 +12,12 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * Contains core role information.
+ * POJO defined as an Entity so that data can be persisted to the database.
+ * @author Leonard
+ *
+ */
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -49,7 +55,4 @@ public class Role {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
-	
-
-
 }

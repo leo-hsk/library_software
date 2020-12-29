@@ -23,6 +23,12 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+/**
+ * Implementation of UserDetails which contains core user information.
+ * POJO defined as an Entity so that data can be persisted to the database.
+ * @author Leonard
+ *
+ */
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // Handles circular references
 @Entity
 @Table(name = "users")
@@ -63,7 +69,6 @@ public class User implements UserDetails{
 	private List<Book> books;
 	
 	public User() {
-		
 	}
 	
 	public User(String username, String password, String firstName, String lastName, String email, Role role) {
@@ -173,7 +178,4 @@ public class User implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	
-	
 }

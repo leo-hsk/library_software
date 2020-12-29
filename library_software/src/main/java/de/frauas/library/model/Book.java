@@ -11,6 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Contains book data to map book information with user.
+ * Book represents the physical book which can be lent.
+ * POJO defined as an Entity so that data can be persisted to the database.
+ * @author Leonard
+ *
+ */
 @Entity
 @Table(name = "books")
 public class Book {
@@ -34,7 +41,6 @@ public class Book {
 	private Date lendingDate;
 	
 	public Book() {
-		
 	}
 
 	public Book(BookData bookData) {
@@ -78,6 +84,4 @@ public class Book {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
 }
