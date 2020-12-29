@@ -20,8 +20,7 @@
 					<th>Publication Date</th>
 					<th>ISBN 13</th>
 					<th>Lent</th>
-					<th>Lend</th>
-					<th  sec:authorize="hasAuthority('admin')">Return</th>
+					<th>Action</th>
 					<th  sec:authorize="hasAuthority('admin')">Delete</th>
 				</tr>
 			</thead>
@@ -42,9 +41,7 @@
 							<input type="hidden" name="keyword2" th:value="${keyword}">
 							<input class="table-btn" type="submit" value="lend">
 						</form>
-					</td>
-					<td sec:authorize="hasAuthority('admin')" class="td-contains-btn" th:switch="${book.lent}">
-						<form th:case="${true}" th:method="PATCH">
+						<form th:case="${true}" sec:authorize="hasAuthority('admin')" th:method="PATCH">
 							<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
 							<input class="table-btn" type="submit" value="return">
 						</form>
