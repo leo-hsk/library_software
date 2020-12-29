@@ -11,19 +11,27 @@
 <body>
 	<header th:insert="fragments/header.html :: header"> </header>
 	<div class="main-content">
-		<div sec:authorize="isAuthenticated()">
+		<div class="welcome-auth" sec:authorize="isAuthenticated()">
 			<h2>
-				Welcome <span sec:authentication="name">Username</span>
+				Welcome Back <span sec:authentication="name">Username</span>
 			</h2>
+			<div class="img" sec:authorize="hasAuthority('admin')">
+			<img src="img/online_organizer.svg">
 		</div>
-		<div class="container">
+		
+		<div class="img" sec:authorize="hasAuthority('user')">
+			<img src="img/bibliophile.svg">
+		</div>
+			
+		</div>
+		<div class="container"  th:if="!${#request.userPrincipal}">
 		<div class="welcome-container">
 			<h2>Nothing is pleasanter than exploring a library</h2>
 			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
 				diam nonumy eirmod tempor invidunt ut labore et dolore magna
 				aliquyam erat, sed diam voluptua. </p>
 				<div class="welcome-btn-container" >
-				<form th:action="@{/login}" th:method="GET">
+				<form action="/login" th:method="GET">
 					<button class="welcome-btn">Login</button>
 				</form>
 				<form th:action="@{/register}" th:method="GET">
@@ -31,7 +39,7 @@
 				</form>
 				</div>
 		</div>
-		<div class="img">
+		<div class="welcome-img">
 			<img src="img/book_lover.svg">
 		</div>
 		</div>
