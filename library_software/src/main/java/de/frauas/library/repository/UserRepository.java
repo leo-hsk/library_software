@@ -8,6 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 import de.frauas.library.model.User;
 
+/**
+ * UserRepository defines methods to retrieve user related data from the database.
+ * @author Leonard
+ *
+ */
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query("SELECT u from User u WHERE u.username = :username")

@@ -8,6 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 import de.frauas.library.model.Book;
 
+/**
+ * BookRepository defines methods to retrieve book related data from the database.
+ * @author Leonard
+ *
+ */
 public interface BookRepository extends JpaRepository<Book, Long>{
 	
 	@Query(value = "SELECT * FROM books b LEFT JOIN book_data bd "
