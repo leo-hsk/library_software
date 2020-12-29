@@ -1,38 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<title>Account Settings</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-<script type="text/javascript" src="../../js/general.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Account Settings</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+	<script type="text/javascript" src="../../js/general.js"></script>
 </head>
 <body>
 	<header th:insert="fragments/header.html :: header"> </header>
 	<div class="main-content">
-	<div class="form">
-	<h2>My Account Settings:</h2>
-	<p>You're currently logged in as an [<span th:text="${userForm.role}"></span>].</p>
-	<form class="input-fields" id="registerUser" th:action="@{/account}" th:object="${userForm}" th:method="PUT">
-		<span>Username:</span> <input class="input" type="text" th:field="*{username}" required/>
-		<span>Password:</span> <input class="input" type="password" th:field="*{password}" id="password" onblur="copyPassword();" required/>
-		<span>First Name:</span> <input class="input" type="text" th:field="*{firstName}" required/>
-		<span>Last Name:</span> <input class="input" type="text" th:field="*{lastName}" required/>
-		<span>Email:</span> <input class="input" type="text" th:field="*{email}" id="email" required/>
-		<button class="form-btn" type="submit" value="Update" onclick="return validateEmail();">Update</button>
-		
-	</form>
-	<form class="input-fields" th:action="@{/account}" th:object="${userForm}" th:method="DELETE">
-	<input type="hidden" th:field="*{password}" id="pw"/>
-	<input type="hidden" th:field="*{username}" id="un"/>
-	<input type="hidden" th:field="*{firstName}" id="fn"/>
-	<input type="hidden" th:field="*{lastName}" id="ln"/>
-	<input type="hidden" th:field="*{email}" id="e"/>
-	<button class="form-delete-btn" type="submit" value="Delete" onclick="return deleteUserConfirm();">Delete</button>
-	</form>
-	<br>
-		<div th:replace="fragments/fragments.html :: errormessage">...</div>
-		<div th:replace="fragments/fragments.html :: successmessage">...</div>
+		<div class="form">
+			<h2>My Account Settings:</h2>
+			<p>You're currently logged in as an [<span th:text="${userForm.role}"></span>].</p>
+			<form class="input-fields" id="registerUser" th:action="@{/account}" th:object="${userForm}" th:method="PUT">
+				<span>Username:</span> <input class="input" type="text" th:field="*{username}" required/>
+				<span>Password:</span> <input class="input" type="password" th:field="*{password}" id="password" onblur="copyPassword();" required/>
+				<span>First Name:</span> <input class="input" type="text" th:field="*{firstName}" required/>
+				<span>Last Name:</span> <input class="input" type="text" th:field="*{lastName}" required/>
+				<span>Email:</span> <input class="input" type="text" th:field="*{email}" id="email" required/>
+				<button class="form-btn" type="submit" value="Update" onclick="return validateEmail();">Update</button>
+			</form>
+			<form class="input-fields" th:action="@{/account}" th:object="${userForm}" th:method="DELETE">
+				<input type="hidden" th:field="*{password}" id="pw"/>
+				<input type="hidden" th:field="*{username}" id="un"/>
+				<input type="hidden" th:field="*{firstName}" id="fn"/>
+				<input type="hidden" th:field="*{lastName}" id="ln"/>
+				<input type="hidden" th:field="*{email}" id="e"/>
+				<button class="form-delete-btn" type="submit" value="Delete" onclick="return deleteUserConfirm();">Delete</button>
+			</form>
+			<br>
+			<div th:replace="fragments/fragments.html :: errormessage">...</div>
+			<div th:replace="fragments/fragments.html :: successmessage">...</div>
 		</div>
 	</div>
 	<footer th:replace="fragments/footer.html :: footer"> </footer>

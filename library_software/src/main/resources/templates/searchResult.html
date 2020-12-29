@@ -1,61 +1,61 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<script type="text/javascript" src="../../js/general.js"></script>
-<title>[[${pageTitle}]]</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<script type="text/javascript" src="../../js/general.js"></script>
+	<title>[[${pageTitle}]]</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body>
 	<header th:insert="fragments/header.html :: header"> </header>
 	<h2>Search Result for '[[${keyword}]]'</h2>
 	<div class="main-content">
 		<table class="table">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Authors</th>
-				<th>Publisher</th>
-				<th>Publication Date</th>
-				<th>ISBN 13</th>
-				<th>Lent</th>
-				<th>Lend</th>
-				<th  sec:authorize="hasAuthority('admin')">Return</th>
-				<th  sec:authorize="hasAuthority('admin')">Delete</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Authors</th>
+					<th>Publisher</th>
+					<th>Publication Date</th>
+					<th>ISBN 13</th>
+					<th>Lent</th>
+					<th>Lend</th>
+					<th  sec:authorize="hasAuthority('admin')">Return</th>
+					<th  sec:authorize="hasAuthority('admin')">Delete</th>
+				</tr>
 			</thead>
 			<tbody>
-			<tr th:each="book : ${searchResult}">
-				<td data-label="Title" th:utext="${book.bookData?.title}">...</td>
-				<td data-label="Authors" th:utext="${book.bookData?.authors}">...</td>
-				<td data-label="Publisher" th:utext="${book.bookData?.publisher}">...</td>
-				<td data-label="Publication Date" th:utext="${book.bookData?.publicationDate}">...</td>
-				<td data-label="ISBN 13" th:utext="${book.bookData?.isbn13}">...</td>
-				<td data-label="Lent" th:switch="${book.lent}" >
-					<span th:case=${true} th:id="${#ids.seq('lend')}" >Yes</span>
-					<span th:case=${false} th:id="${#ids.seq('lend')}" >No</span>
-				</td>
-				<td class="td-contains-btn" th:switch="${book.lent}">
-					<form th:case=${false} th:method="PATCH">
-						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
-						<input type="hidden" name="keyword2" th:value="${keyword}">
-						<input class="table-btn" type="submit" value="lend">
-					</form>
-				</td>
-				<td sec:authorize="hasAuthority('admin')" class="td-contains-btn" th:switch="${book.lent}">
-					<form th:case="${true}" th:method="PATCH">
-						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
-						<input class="table-btn" type="submit" value="return">
-					</form>
-				</td>
-				<td sec:authorize="hasAuthority('admin')" class="td-contains-btn">
-					<form th:method="DELETE">
-						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
-						<input class="table-delete-btn" type="submit" value="delete" onclick="return deleteBookConfirm(this.id);" th:id="${#ids.seq('btn')}">
-					</form>
-				</td>
-			</tr>
+				<tr th:each="book : ${searchResult}">
+					<td data-label="Title" th:utext="${book.bookData?.title}">...</td>
+					<td data-label="Authors" th:utext="${book.bookData?.authors}">...</td>
+					<td data-label="Publisher" th:utext="${book.bookData?.publisher}">...</td>
+					<td data-label="Publication Date" th:utext="${book.bookData?.publicationDate}">...</td>
+					<td data-label="ISBN 13" th:utext="${book.bookData?.isbn13}">...</td>
+					<td data-label="Lent" th:switch="${book.lent}" >
+						<span th:case=${true} th:id="${#ids.seq('lend')}" >Yes</span>
+						<span th:case=${false} th:id="${#ids.seq('lend')}" >No</span>
+					</td>
+					<td class="td-contains-btn" th:switch="${book.lent}">
+						<form th:case=${false} th:method="PATCH">
+							<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
+							<input type="hidden" name="keyword2" th:value="${keyword}">
+							<input class="table-btn" type="submit" value="lend">
+						</form>
+					</td>
+					<td sec:authorize="hasAuthority('admin')" class="td-contains-btn" th:switch="${book.lent}">
+						<form th:case="${true}" th:method="PATCH">
+							<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
+							<input class="table-btn" type="submit" value="return">
+						</form>
+					</td>
+					<td sec:authorize="hasAuthority('admin')" class="td-contains-btn">
+						<form th:method="DELETE">
+							<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
+							<input class="table-delete-btn" type="submit" value="delete" onclick="return deleteBookConfirm(this.id);" th:id="${#ids.seq('btn')}">
+						</form>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<div th:replace="fragments/fragments.html :: errormessage">...</div>

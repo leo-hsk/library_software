@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Account Settings</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+	<meta charset="UTF-8">
+	<title>Account Settings</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
 	<div th:fragment="searchnav">
 		<form th:action="@{/search}" method="GET">
-		<input type="search" name="keyword" placeholder="keyword">
-		<input type="submit" value="Search">
+			<input type="search" name="keyword" placeholder="keyword">
+			<input type="submit" value="Search">
 		</form>
 	</div>
-	
 	<div th:fragment="errormessage" class="message" th:if="${errorMessage}" th:utext="${errorMessage}" style="color: red; font-style: italic; text-align: center">...</div>
 	<div th:fragment="successmessage" class="message" th:if="${successMessage}" th:utext="${successMessage}" style="color: green; font-style: italic; text-align: center">...</div>
 </body>

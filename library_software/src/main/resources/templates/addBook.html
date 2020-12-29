@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<script type="text/javascript" src="../../js/general.js"></script>
-<title>Add Book</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<script type="text/javascript" src="../../js/general.js"></script>
+	<title>Add Book</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
-<header th:insert="fragments/header.html :: header"> </header>
-<div class="main-content">
-	<div class="form">
-	<h2>Add Book:</h2>
-	<form class="input-fields" th:action="@{/addBook}" th:object="${bookForm}" method="POST" id="bookAddForm">
-		<input class="input" type="text" th:field="*{title}" placeholder="Enter Title" id="title" required/>
-		<input class="input" type="text" th:field="*{authors}" placeholder="Enter Authors" id="authors" required/>
-		<input class="input" type="text" th:field="*{publisher}" placeholder="Enter Publisher" id="publisher" required/>
-		<input class="input" type="text" th:field="*{publicationDate}" placeholder="Enter Publication Date YYYY-MM-DD" id="publicationDate" required/>
-		<input class="input" type="text" th:field="*{isbn13}" placeholder="Enter ISBN13 XXXXXXXXXXXXX" id="isbn13" required/>
-		<button class="form-btn" type="submit" value="Add" onclick="return validateBookAddForm();">Add</button>
-	</form>
-	<br />
-	<div th:replace="fragments/fragments.html :: errormessage">...</div>
-	<div th:replace="fragments/fragments.html :: successmessage">...</div>
-	</div>
+	<header th:insert="fragments/header.html :: header"> </header>
+	<div class="main-content">
+		<div class="form">
+			<h2>Add Book:</h2>
+			<form class="input-fields" th:action="@{/addBook}" th:object="${bookForm}" method="POST" id="bookAddForm">
+				<input class="input" type="text" th:field="*{title}" placeholder="Enter Title" id="title" required/>
+				<input class="input" type="text" th:field="*{authors}" placeholder="Enter Authors" id="authors" required/>
+				<input class="input" type="text" th:field="*{publisher}" placeholder="Enter Publisher" id="publisher" required/>
+				<input class="input" type="text" th:field="*{publicationDate}" placeholder="Enter Publication Date YYYY-MM-DD" id="publicationDate" required/>
+				<input class="input" type="text" th:field="*{isbn13}" placeholder="Enter ISBN13 XXXXXXXXXXXXX" id="isbn13" required/>
+				<button class="form-btn" type="submit" value="Add" onclick="return validateBookAddForm();">Add</button>
+			</form>
+			<br />
+			<div th:replace="fragments/fragments.html :: errormessage">...</div>
+			<div th:replace="fragments/fragments.html :: successmessage">...</div>
+		</div>
 	</div>
 	<footer th:replace="fragments/footer.html :: footer"> </footer>
 </body>
