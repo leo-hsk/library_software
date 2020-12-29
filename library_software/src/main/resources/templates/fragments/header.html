@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="utf-8" />
 <!--<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /> -->
@@ -28,12 +28,13 @@
 						<!--<input class="search-btn" type="submit" value="Search"> -->
 					</div>
 					</li>
-					<li><a href="/addBook">Add Book</a></li>
-					<li><a href="/users">Users</a></li>
-					<li><a href="/login">Login</a></li>
-					<li><a href="/register">Register</a></li>
-					<li><a href="/myBooks">My Books</a></li>
-					<li><a href="/account">My Account</a></li>
+					<li sec:authorize="hasAuthority('admin')"><a href="/addBook" >Add Book</a></li>
+					<li sec:authorize="hasAuthority('admin')"><a href="/users">Users</a></li>
+					<li th:if="!${#request.userPrincipal}"><a href="/login">Login</a></li>
+					<li th:if="!${#request.userPrincipal}"><a href="/register">Register</a></li>
+					<li sec:authorize="isAuthenticated()"><a href="/myBooks">My Books</a></li>
+					<li sec:authorize="isAuthenticated()"><a href="/account">My Account</a></li>
+					<li sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
 				</ul>
 			</div>
 		</nav>

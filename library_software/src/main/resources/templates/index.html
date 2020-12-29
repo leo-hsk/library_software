@@ -12,7 +12,6 @@
 	<div sec:authorize="isAuthenticated()">
 		<h2>Welcome <span sec:authentication="name">Username</span></h2>
 	</div>
-	<h2>Welcome to Library Software</h2>
 	<div th:replace="fragments/fragments.html :: errormessage">...</div>
 	<div th:replace="fragments/fragments.html :: successmessage">...</div>
 	</div>

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -21,8 +21,8 @@
 				<th>ISBN 13</th>
 				<th>Lent</th>
 				<th>Lend</th>
-				<th>Return</th>
-				<th>Delete</th>
+				<th  sec:authorize="hasAuthority('admin')">Return</th>
+				<th  sec:authorize="hasAuthority('admin')">Delete</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -43,13 +43,13 @@
 						<input class="table-btn" type="submit" value="lend">
 					</form>
 				</td>
-				<td class="td-contains-btn" th:switch="${book.lent}">
+				<td sec:authorize="hasAuthority('admin')" class="td-contains-btn" th:switch="${book.lent}">
 					<form th:case="${true}" th:method="PATCH">
 						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
 						<input class="table-btn" type="submit" value="return">
 					</form>
 				</td>
-				<td class="td-contains-btn">
+				<td sec:authorize="hasAuthority('admin')" class="td-contains-btn">
 					<form th:method="DELETE">
 						<input type="hidden" name="isbn13" th:value="${book.bookData?.isbn13}">
 						<input class="table-delete-btn" type="submit" value="delete" onclick="return deleteBookConfirm(this.id);" th:id="${#ids.seq('btn')}">
