@@ -14,7 +14,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
@@ -34,6 +33,7 @@ import de.frauas.library.data.UserDAO;
 import de.frauas.library.form.UserForm;
 import de.frauas.library.model.User;
 import de.frauas.library.repository.RoleRepository;
+import de.frauas.library.utility.UserManagerUtils;
 
 /**
  * Controller to handle requests related to users.
@@ -76,6 +76,7 @@ public class UserController {
 			model.addAttribute("success", del);
 			return "login";
 			}	
+		
 //		Login successful.
 		return "redirect:/";
 	}
@@ -90,9 +91,7 @@ public class UserController {
 	@GetMapping(value = "/account")
 	public String showAccountPage(Model model) {
 		
-//		Get the user who made the request.
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username = ((UserDetails)principal).getUsername();
+		String username = UserManagerUtils.getCurrentUserName();
 		User user = userDAO.get(username).get();
 		
 //		Load user information into thymeleaf.
@@ -112,9 +111,7 @@ public class UserController {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
-//		Get user who made request.
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username = ((UserDetails)principal).getUsername();
+		String username = UserManagerUtils.getCurrentUserName();
 
 //		Safe user role for thymeleaf.
 		User user = userDAO.get(username).get();
@@ -201,9 +198,7 @@ public class UserController {
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
-//		Get user who made request
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username = ((UserDetails)principal).getUsername();
+		String username = UserManagerUtils.getCurrentUserName();
 
 //		Safe user role for thymeleaf.
 		User user = userDAO.get(username).get();
@@ -237,7 +232,7 @@ public class UserController {
 	}
 	
 	
-//	Not used anymore
+//	For testing purposes
 	@GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Optional<User>> getUser(@PathVariable("id") long id) {

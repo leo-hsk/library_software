@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import de.frauas.library.data.BookDAO;
 import de.frauas.library.data.UserDAO;
 import de.frauas.library.model.Book;
+import de.frauas.library.utility.UserManagerUtils;
 
 /**
  * Controller to handle requests related to books.
@@ -59,37 +60,38 @@ public class BookController {
 		return "searchResult";
 	}
 	
-	
 	@PatchMapping(value = "/search")
 	public String lendBook(@Param("isbn13") long isbn13, @Param("keyword2") String keyword, Model model) {
-		
-//		Get user who made request.
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username = ((UserDetails)principal).getUsername();
+
+		String username = UserManagerUtils.getCurrentUserName();
 		
 		Book book = bookDAO.findByIsbn13(isbn13).get(0);
-			
+
 		String[] param = new String[3];
 		Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-		
-		if(!book.isLent()) {
-			param [0] = "true";
+
+		if (!book.isLent()) {
+//			TODO: Use enum for index.
+			param[0] = "true";
 			param[1] = username;
 			param[2] = sqlDate.toString();
-			
-			model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' lent.");
-		} else {
+
+			model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 + "' lent.");
+		}
+		else {
 			param = null;
-			model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 +"' returned.");
-		}	
-		bookDAO.edit(book, param);
+			model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 + "' returned.");
+		}
 		
+		bookDAO.edit(book, param);
+
 //		Return the same search result.
-		if(keyword.isBlank()) {
+		if (keyword.isBlank()) {
 			model.addAttribute("keyword", "All books");
 			model.addAttribute("searchResult", bookDAO.getAll());
 			return "searchResult";
 		}
+		
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("searchResult", bookDAO.search(keyword));
 		return "searchResult";
@@ -104,9 +106,7 @@ public class BookController {
 	@GetMapping(value = "/myBooks")
 	public String listBooksFromUser(Model model) {
 		
-//		Get user who made request.
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username = ((UserDetails)principal).getUsername();
+		String username = UserManagerUtils.getCurrentUserName();
 		
 		model.addAttribute("books", bookDAO.findByUser(userDAO.get(username).get().getId()));
 		return "myBooks";
