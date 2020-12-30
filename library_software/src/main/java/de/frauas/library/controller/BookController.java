@@ -126,7 +126,7 @@ public class BookController {
 	
 	
 	
-//	Not used
+//	For testing purposes
 	@DeleteMapping(value = "/books/{id}")
 	@ResponseBody
 	public ResponseEntity<Object> deleteBook(@PathVariable("id") long id, UriComponentsBuilder builder) {	
@@ -139,7 +139,7 @@ public class BookController {
 		}
 	}
 
-//	Not used
+//	For testing purposes
 	@GetMapping(value = "/books", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<Book>> getBooks() {
@@ -150,7 +150,7 @@ public class BookController {
 		}
 	}
 
-//	Not used
+//	For testing purposes
 	@GetMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Optional<Book>> getBook(@PathVariable("id") long id) {
