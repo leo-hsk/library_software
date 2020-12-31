@@ -83,9 +83,9 @@ public class BookController {
 		Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
 		if (!book.isLent()) {
-			param[BookAttribute.LENT.ordinal()] = "true";
-			param[BookAttribute.LENT_BY_USER.ordinal()] = username;
-			param[BookAttribute.LENDING_DATE.ordinal()] = sqlDate.toString();
+			param[BookAttribute.LENT] = "true";
+			param[BookAttribute.LENT_BY_USER] = username;
+			param[BookAttribute.LENDING_DATE] = sqlDate.toString();
 
 			model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 + "' lent.");
 		}

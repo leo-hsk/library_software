@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import de.frauas.library.common.BookAttribute;
+import de.frauas.library.common.BookDataAttribute;
 import de.frauas.library.model.Book;
 import de.frauas.library.repository.BookDataRepository;
 import de.frauas.library.repository.BookRepository;
@@ -69,7 +70,7 @@ public class BookDAO implements DAO<Book>{
 
 	@Override
 	public void update(Book book, String[] params) {
-		book.setBookData(bookDataRepository.findById(Long.parseLong(Objects.requireNonNull(params[2], "ISBN cannot be null!"))).get());
+		book.setBookData(bookDataRepository.findById(Long.parseLong(Objects.requireNonNull(params[BookDataAttribute.ISBN13], "ISBN cannot be null!"))).get());
 		
 		bookRepository.save(book);
 	}
@@ -88,9 +89,9 @@ public class BookDAO implements DAO<Book>{
 			book.setUser(null);
 		}
 		else {
-			book.setLent(Boolean.valueOf(param[BookAttribute.LENT.ordinal()]));
-			book.setUser(userRepository.findByUsername(param[BookAttribute.LENT_BY_USER.ordinal()]).get());
-			book.setLendingDate(Date.valueOf(param[BookAttribute.LENDING_DATE.ordinal()]));
+			book.setLent(Boolean.valueOf(param[BookAttribute.LENT]));
+			book.setUser(userRepository.findByUsername(param[BookAttribute.LENT_BY_USER]).get());
+			book.setLendingDate(Date.valueOf(param[BookAttribute.LENDING_DATE]));
 		}
 		bookRepository.save(book);
 	}

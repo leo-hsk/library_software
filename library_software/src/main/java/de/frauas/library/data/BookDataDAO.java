@@ -21,6 +21,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import de.frauas.library.common.BookDataAttribute;
 import de.frauas.library.model.BookData;
 import de.frauas.library.repository.BookDataRepository;
 
@@ -60,11 +61,11 @@ public class BookDataDAO implements DAO<BookData>{
 
 	@Override
 	public void update(BookData bookData, String[] params) {
-		bookData.setTitle(Objects.requireNonNull(params[0], "Title cannot be null!"));
-		bookData.setAuthors(Objects.requireNonNull(params[1], "Authors cannot be null!"));
-		bookData.setIsbn13(Long.parseLong(Objects.requireNonNull(params[2], "ISBN cannot be null!")));
-		bookData.setPublicationDate(Date.valueOf(Objects.requireNonNull(params[3].toString(), "Publication date cannot be null!")));
-		bookData.setPublisher(Objects.requireNonNull(params[4], "Publisher cannot be null!"));
+		bookData.setTitle(Objects.requireNonNull(params[BookDataAttribute.TITLE], "Title cannot be null!"));
+		bookData.setAuthors(Objects.requireNonNull(params[BookDataAttribute.AUTHORS], "Authors cannot be null!"));
+		bookData.setIsbn13(Long.parseLong(Objects.requireNonNull(params[BookDataAttribute.ISBN13], "ISBN cannot be null!")));
+		bookData.setPublicationDate(Date.valueOf(Objects.requireNonNull(params[BookDataAttribute.PUBLICATION_DATE].toString(), "Publication date cannot be null!")));
+		bookData.setPublisher(Objects.requireNonNull(params[BookDataAttribute.PUBLISHER], "Publisher cannot be null!"));
 		
 		bookDataRepository.save(bookData);
 	}

@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import de.frauas.library.common.UserAttribute;
 import de.frauas.library.data.BookDAO;
 import de.frauas.library.data.UserDAO;
 import de.frauas.library.form.UserForm;
@@ -204,10 +205,10 @@ public class UserController {
 	public String updateUser(Model model, @ModelAttribute("userForm") UserForm userForm) {
 		
 		String[] params = new String[4];
-		params[0] = userForm.getUsername();
-		params[1] = userForm.getFirstName();
-		params[2] = userForm.getLastName();
-		params[3] = userForm.getEmail();
+		params[UserAttribute.USERNAME] = userForm.getUsername();
+		params[UserAttribute.FIRST_NAME] = userForm.getFirstName();
+		params[UserAttribute.LAST_NAME] = userForm.getLastName();
+		params[UserAttribute.EMAIL] = userForm.getEmail();
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import de.frauas.library.common.UserAttribute;
 import de.frauas.library.model.User;
 import de.frauas.library.repository.RoleRepository;
 import de.frauas.library.repository.UserRepository;
@@ -86,10 +87,10 @@ public class UserDAO implements DAO<User>{
 
 	@Override
 	public void update(User user, String[] params) {
-		user.setUsername(Objects.requireNonNull(params[0], "Username cannot be null!"));
-		user.setFirstName(Objects.requireNonNull(params[1], "First name cannot be null!"));
-		user.setLastName(Objects.requireNonNull(params[2], "Last name cannot be null!"));
-		user.setEmail(Objects.requireNonNull(params[3], "Email cannot be null!"));
+		user.setUsername(Objects.requireNonNull(params[UserAttribute.USERNAME], "Username cannot be null!"));
+		user.setFirstName(Objects.requireNonNull(params[UserAttribute.FIRST_NAME], "First name cannot be null!"));
+		user.setLastName(Objects.requireNonNull(params[UserAttribute.LAST_NAME], "Last name cannot be null!"));
+		user.setEmail(Objects.requireNonNull(params[UserAttribute.EMAIL], "Email cannot be null!"));
 		userRepository.save(user);
 	}
 

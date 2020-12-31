@@ -18,12 +18,19 @@ package de.frauas.library.common;
  * @author Leonard
  *
  */
-public class BookAttribute {
+public class BookDataAttribute {
 	
-	static public int LENT = 0;
+	static public int TITLE = 0;
 	
-	static public int LENT_BY_USER = 1;
+	static public int AUTHORS = 1;
 	
-	static public int LENDING_DATE = 2;
+	static public int ISBN13 = 2;
+	
+	static public int PUBLICATION_DATE = 3;
+	
+	static public int PUBLISHER = 4;
+	
+	
+	
 
 }
