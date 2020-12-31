@@ -21,6 +21,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import de.frauas.library.common.BookAttribute;
 import de.frauas.library.model.Book;
 import de.frauas.library.repository.BookDataRepository;
 import de.frauas.library.repository.BookRepository;
@@ -87,10 +88,9 @@ public class BookDAO implements DAO<Book>{
 			book.setUser(null);
 		}
 		else {
-//			TODO: Use enum for index.
-			book.setLent(Boolean.valueOf(param[0]));
-			book.setUser(userRepository.findByUsername(param[1]).get());
-			book.setLendingDate(Date.valueOf(param[2]));
+			book.setLent(Boolean.valueOf(param[BookAttribute.LENT.ordinal()]));
+			book.setUser(userRepository.findByUsername(param[BookAttribute.LENT_BY_USER.ordinal()]).get());
+			book.setLendingDate(Date.valueOf(param[BookAttribute.LENDING_DATE.ordinal()]));
 		}
 		bookRepository.save(book);
 	}

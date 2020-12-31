@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import de.frauas.library.common.BookAttribute;
 import de.frauas.library.data.BookDAO;
 import de.frauas.library.data.UserDAO;
 import de.frauas.library.model.Book;
@@ -82,10 +83,9 @@ public class BookController {
 		Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
 		if (!book.isLent()) {
-//			TODO: Use enum for index.
-			param[0] = "true";
-			param[1] = username;
-			param[2] = sqlDate.toString();
+			param[BookAttribute.LENT.ordinal()] = "true";
+			param[BookAttribute.LENT_BY_USER.ordinal()] = username;
+			param[BookAttribute.LENDING_DATE.ordinal()] = sqlDate.toString();
 
 			model.addAttribute("successMessage", "Book with ISBN13 '" + isbn13 + "' lent.");
 		}
