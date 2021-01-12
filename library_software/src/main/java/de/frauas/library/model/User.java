@@ -47,6 +47,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name = "users")
 public class User implements UserDetails{
 	
+	private static final long serialVersionUID = -7370901260621350463L;
+
 	@Id
 	@Column(name = "user_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
