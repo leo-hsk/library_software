@@ -9,6 +9,10 @@ function deleteUserConfirmAdmin() {
 }
 
 function deleteBookConfirm(id) {
+	if(id === undefined) {
+		id = "";
+	}
+
 	var num = id.replace(/\D/g, "");
 	var id_lend = "lend" + num;
 	var element = document.getElementById(id_lend);
@@ -29,13 +33,14 @@ function copyPassword() {
 
 function validateBookAddForm() {
 	var isbn = document.forms["bookAddForm"]["isbn13"].value;
+	var dateString = document.forms["bookAddForm"]["publicationDate"].value;
+	var regEx = /^\d{4}-\d{2}-\d{2}$/;
+
 	if (isbn.length !== 13) {
 		alert("Given ISBN 13 is not valid or empty.");
 		return false;
 	};
 
-	var dateString = document.forms["bookAddForm"]["publicationDate"].value;
-	var regEx = /^\d{4}-\d{2}-\d{2}$/;
 	if(!dateString.match(regEx)) {
 		alert("Date needs to be in format 'YYYY-MM-DD'.");
 		return false;
